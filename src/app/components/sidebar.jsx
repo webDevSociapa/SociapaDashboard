@@ -13,7 +13,9 @@ const navigation = [
   { name: 'Channel Analysis', href: '/analysis', icon: BarChart2 },
   { name: 'Report', href: '/report', icon: FileText },
   { name: 'Messages', href: '/messages', icon: MessageSquare },
+  { name: 'Login', href: '/login', icon: MessageSquare },
   { name: 'Settings', href: '/settings', icon: Settings },
+  // {name:'Signup', href : '/signup', icon: loginScreenPage, Route:"/loginPage"}
 ]
 
 export function Sidebar() {
@@ -25,7 +27,7 @@ export function Sidebar() {
         <Image src={SociapaLogo} width={100} height={100} alt="Sociapa" className="h-8 w-8" />
         <span className="text-xl font-semibold">Sociapa</span>
       </div>
-      
+
       <nav className="flex-1 space-y-1 px-2 py-4">
         {navigation.map((item) => {
           const isActive = pathname === item.href
@@ -33,11 +35,10 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                isActive 
-                  ? 'bg-white/10 text-white' 
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${isActive
+                  ? 'bg-white/10 text-white'
                   : 'text-gray-400 hover:bg-white/5 hover:text-white'
-              }`}
+                }`}
             >
               <item.icon className="h-5 w-5" />
               {item.name}

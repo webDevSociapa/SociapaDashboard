@@ -28,7 +28,7 @@ export default function DashboardPage() {
               <CampaignNames />
               <DemographicChart />
             </div>
-            <TrafficMapping />
+            {/* <TrafficMapping /> */}
             <TopPerformingCreatives />
           </div>
         </main>
