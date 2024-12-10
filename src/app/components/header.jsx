@@ -1,14 +1,19 @@
 'use client'
 
 import { Search, Bell } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export function Header() {
+const [brandNameData,setBrandNameData] = useState("")
+  useEffect(()=>{
+    const BrandName = localStorage.getItem("brandName");
+    setBrandNameData(BrandName)
+  },[]) 
 
 
   return (
     <header className="flex h-16 items-center justify-between border-b bg-white px-4">
-      <h1 className="text-xl font-semibold">Nutrela</h1>
+      <h1 className="text-xl font-semibold">{brandNameData}</h1>
       
       <div className="flex items-center gap-4">
         <div className="relative">

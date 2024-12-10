@@ -6,6 +6,7 @@ export default function ExcelUploadForm() {
   const [file, setFile] = useState(null);
   const [sheetName, setSheetName] = useState('');
   const [message, setMessage] = useState('');
+  const [successStatus,setSuccessStatus] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,10 +14,10 @@ export default function ExcelUploadForm() {
       setMessage('Please select a file and enter a sheet name');
       return;
     }
-
     const formData = new FormData();
     formData.append('file', file);
     formData.append('sheetName', sheetName);
+
 
     try {
       const response = await fetch('/api/upload', {

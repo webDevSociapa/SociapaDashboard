@@ -133,10 +133,10 @@
     <Cell ss:StyleID="s65"><Data ss:Type="Number">100</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">2400437</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.6093729999999999</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="Number">3863199</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="Number">53863199</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">29135.68</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">23476</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.2410840000000001</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.52410840000000001</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.60768299999999997</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.436944</Data></Cell>
     <Cell ss:StyleID="s64"><Data ss:Type="String">actions:link_click</Data></Cell>
@@ -144,7 +144,7 @@
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.7260470000000001</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">12.137657000000001</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">7.5418529999999997</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="Number">18656</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="Number">230000</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">1</Data></Cell>
     <Cell ss:StyleID="s64"><Data ss:Type="String"></Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">18655</Data></Cell>
@@ -267,7 +267,7 @@
     <Cell ss:StyleID="s65"><Data ss:Type="Number">1015</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.898039</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.59468699999999997</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.61285000000000001</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.861285000000000001</Data></Cell>
     <Cell ss:StyleID="s64"><Data ss:Type="String">actions:link_click</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">1046</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.841788</Data></Cell>
@@ -285,7 +285,7 @@
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.5326249999999999</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">1046</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">992</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.61285000000000001</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.961285000000000001</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">986</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.76728499999999999</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.9420459999999999</Data></Cell>
@@ -480,9 +480,9 @@
     <Cell ss:StyleID="s65"><Data ss:Type="Number">2053150</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">15486.46</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">12397</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.2492099999999999</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.5492099999999999</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.60380400000000001</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.61924400000000002</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.861924400000000002</Data></Cell>
     <Cell ss:StyleID="s64"><Data ss:Type="String">actions:link_click</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">12714</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.218064</Data></Cell>
@@ -500,7 +500,7 @@
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.6369000000000002E-2</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">12714</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">12128</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.61924400000000002</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">0.961924400000000002</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">12128</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">0.874977</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">1.276918</Data></Cell>
@@ -545,7 +545,7 @@
     <Cell ss:StyleID="s65"><Data ss:Type="Number">2006</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">6.7363000000000006E-2</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="Number">26296</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.245951</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="Number">1.545951</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">22.076979000000001</Data></Cell>
     <Cell ss:StyleID="s66"><Data ss:Type="Number">21.945699000000001</Data></Cell>
     <Cell ss:StyleID="s67"><Data ss:Type="DateTime">2024-10-15T00:00:00.000</Data></Cell>

@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 const data = [
@@ -11,9 +12,18 @@ const data = [
   { name: 'Jun', lastMonth: 4000, thisMonth: 4700 },
 ]
 
+// const handleGet = async() =>{
+//   try {
+//     const response = await axios.get("/admib")
+//   } catch (error) { 
+//   }
+// }
+
+
+
 export function Charts() {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-4 md:grid-cols-2 border-">
       <div className="rounded-lg border bg-white p-4">
         <h3 className="mb-4 text-lg font-medium">Impressions</h3>
         <ResponsiveContainer width="100%" height={300}>

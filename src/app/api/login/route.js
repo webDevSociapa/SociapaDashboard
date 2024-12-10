@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 // Mock user data for email-password validation
 const users = {
-  "robin@gmail.com": { password: "12345", fileName: "s", },
+  "aalishan@gmail.com": { password: "12345", fileName: "s",brand:"aalishaan" },
   "admin@nutrela.com": { password: "123456", fileName: "e",brand:"Nutrela" },
 };
 

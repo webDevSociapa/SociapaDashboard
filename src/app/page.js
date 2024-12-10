@@ -37,7 +37,7 @@ export default function DashboardPage() {
               Export
             </button>
           </div>
-          
+
           <div className="space-y-6">
             <StatsCards />
             <Charts />
