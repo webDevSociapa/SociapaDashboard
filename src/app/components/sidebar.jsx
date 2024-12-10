@@ -3,8 +3,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import SociapaLogo from '../../../public/img/SociapaLogo.png'
 import { LayoutDashboard, Users, Heart, BarChart2, FileText, MessageSquare, Settings, LogOut } from 'lucide-react'
+import { useEffect } from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -19,7 +21,20 @@ const navigation = [
 ]
 
 export function Sidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const router = useRouter()
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn')
+    router.push('/')
+  }
+
+  useEffect(() => {
+    const localStorageStatus = localStorage.getItem('isLoggedIn');
+    if (localStorageStatus !== "true") {
+      router.push('/')
+    }
+  }, [])
 
   return (
     <div className="flex h-screen w-64 flex-col fixed left-0 top-0 bg-[#1a1a1a] text-white">
@@ -36,8 +51,8 @@ export function Sidebar() {
               key={item.name}
               href={item.href}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${isActive
-                  ? 'bg-white/10 text-white'
-                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                ? 'bg-white/10 text-white'
+                : 'text-gray-400 hover:bg-white/5 hover:text-white'
                 }`}
             >
               <item.icon className="h-5 w-5" />
@@ -47,8 +62,8 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-2">
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white">
+      <div className="p-2" onClick={handleLogout}>
+        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white" >
           <LogOut className="h-5 w-5" />
           Sign Out
         </button>

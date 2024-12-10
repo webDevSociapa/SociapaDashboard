@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 // Mock user data for email-password validation
 const users = {
-  "robin@gmail.com": { password: "12345", fileName: "e.xlsx" },
-  "robin1@gmail.com": { password: "123456", fileName: "s.xlsx" },
+  "robin@gmail.com": { password: "12345", fileName: "e.xlsx", },
+  "robin1@gmail.com": { password: "123456", fileName: "s.xlsx",brand:"Nutrela" },
 };
 
 export async function POST(request) {
@@ -28,6 +28,9 @@ export async function POST(request) {
     return NextResponse.json({
       message: "Login successful",
       fileName: user.fileName,
+      brandName: user.brand,
+
+      status: 200
     });
   } catch (error) {
     console.error("Error in login API:", error);

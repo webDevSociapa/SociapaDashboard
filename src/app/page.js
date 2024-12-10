@@ -1,3 +1,5 @@
+'use client'
+
 import { Sidebar } from '@/app/components/sidebar'
 import { Header } from '@/app/components/header'
 import { StatsCards } from '@/app/components/stats-cards'
@@ -6,8 +8,23 @@ import { CampaignNames } from '@/app/components/campaign-names'
 import { DemographicChart } from '@/app/components/demographic-chart'
 import { TrafficMapping } from '@/app/components/traffic-mapping'
 import { TopPerformingCreatives } from '@/app/components/top-performing-creatives'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function DashboardPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check if user is logged in
+    const isLoggedInStatus = localStorage.getItem('isLoggedIn'); // Read from localStorage
+    if (isLoggedInStatus === 'true') {
+      // User is logged in, stay on this page
+    } else {
+      // User is not logged in, redirect to login
+      router.push('/login');
+    }
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />

@@ -19,6 +19,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-simple-maps": "^3.0.0",
+    "react-toastify": "^10.0.6",
     "recharts": "^2.14.1",
     "xlsx": "^0.18.5"
   },
