@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -11,9 +11,18 @@ export function StatsCards() {
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/excelData');
-        setStatsData(response.data);
-        console.log("Fetched data:", response.data);
+        // Get `sheetName` from localStorage
+        const sheetName = localStorage.getItem('sheetName');
+        
+        if (!sheetName) {
+          console.error('Sheet name not found in localStorage');
+          return;
+        }
+
+        // Make API call with `sheetName` as query parameter
+        const response = await axios.get(`/api/excelData?sheetName=${sheetName[0]}`);
+        setStatsData(response.data[0]);
+        console.log('Fetched data:', response.data[0]);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -21,6 +30,9 @@ export function StatsCards() {
 
     fetchStatsData();
   }, []);
+
+  console.log(statsData);
+  
 
   // If the data hasn't been fetched yet, show a loading state
   if (!statsData) {
