@@ -71,6 +71,26 @@ export function StatsCards() {
       value: statsData["Impressions"], // Impressions
       change: '+2% from yesterday',
     },
+    {
+      title: 'Spend',
+      value: statsData["Impressions"], // Impressions
+      change: '+2% from yesterday',
+    },
+    {
+      title: 'Frequency',
+      value: statsData["Impressions"], // Impressions
+      change: '+2% from yesterday',
+    },
+    {
+      title: 'Reach',
+      value: statsData["Impressions"], // Impressions
+      change: '+2% from yesterday',
+    },
+    {
+      title: 'Total spent',
+      value: statsData["Impressions"], // Impressions
+      change: '+2% from yesterday',
+    },
   ];
 
   return (

@@ -10,6 +10,7 @@ import { TrafficMapping } from '@/app/components/traffic-mapping'
 import { TopPerformingCreatives } from '@/app/components/top-performing-creatives'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import TopPerformingAds from './components/topperformingAds'
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -45,8 +46,14 @@ export default function DashboardPage() {
               <CampaignNames />
               <DemographicChart />
             </div>
-            {/* <TrafficMapping /> */}
+             {/* <TrafficMapping /> */}
             <TopPerformingCreatives />
+            <div className="grid gap-6 md:grid-cols-2 xl: grid-cols-12 sm: grid-cols-12">
+            <TopPerformingAds/>
+            <TopPerformingAds/>
+
+              </div>
+              
           </div>
         </main>
       </div>
