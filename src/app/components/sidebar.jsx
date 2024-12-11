@@ -25,16 +25,16 @@ export function Sidebar() {
   const router = useRouter()
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn')
-    router.push('/')
-  }
-
+    localStorage.removeItem('isLoggedIn');
+    router.push('/login');
+  };
+  
   useEffect(() => {
     const localStorageStatus = localStorage.getItem('isLoggedIn');
-    if (localStorageStatus !== "true") {
+    if (localStorageStatus === "true") {
       router.push('/')
     }
-  }, [])
+  }, [router])
 
   return (
     <div className="flex h-screen w-64 flex-col fixed left-0 top-0 bg-[#1a1a1a] text-white">
@@ -55,7 +55,7 @@ export function Sidebar() {
                 : 'text-gray-400 hover:bg-white/5 hover:text-white'
                 }`}
             >
-              <item.icon className="h-5 w-5" />
+              <item.icon className="h-5 w-5"  />
               {item.name}
             </Link>
           )
