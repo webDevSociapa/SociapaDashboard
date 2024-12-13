@@ -36,6 +36,9 @@ export function StatsCards() {
     (item) => item[""] === selectedDate // Replace `""` with the actual key representing the date column
   );
 
+  console.log("filteredData",filteredData);
+  
+
   if (!filteredData) {
     return (
       <div>

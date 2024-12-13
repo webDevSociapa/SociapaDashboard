@@ -47,6 +47,7 @@ export async function GET(request) {
       );
     }
 
+    
     return NextResponse.json(sheetData);
   } catch (error) {
     console.error("Error reading Excel file:", error);

@@ -4,7 +4,7 @@ import { Sidebar } from '@/app/components/sidebar'
 import { Header } from '@/app/components/header'
 import { StatsCards } from '@/app/components/stats-cards'
 import { Charts } from '@/app/components/charts'
-import { CampaignNames } from '@/app/components/campaign-names'
+import { CampaignNames } from '@/app/components/CampaignNames'
 import { DemographicChart } from '@/app/components/demographic-chart'
 import { TrafficMapping } from '@/app/components/traffic-mapping'
 import { TopPerformingCreatives } from '@/app/components/top-performing-creatives'
@@ -42,18 +42,17 @@ export default function DashboardPage() {
           <div className="space-y-6">
             <StatsCards />
             <Charts />
+
             <div className="grid gap-6 md:grid-cols-2">
               <CampaignNames />
               <DemographicChart />
             </div>
              {/* <TrafficMapping /> */}
-            <TopPerformingCreatives />
+            {/* <TopPerformingCreatives /> */}
             <div className="grid gap-6 md:grid-cols-2 xl: grid-cols-12 sm: grid-cols-12">
             <TopPerformingAds/>
             <TopPerformingAds/>
-
               </div>
-              
           </div>
         </main>
       </div>

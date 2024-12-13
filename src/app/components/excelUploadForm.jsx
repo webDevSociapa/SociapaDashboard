@@ -42,7 +42,7 @@ export default function ExcelUploadForm() {
         <input
           type="file"
           id="file"
-          accept=".xlsx, .xls"
+          accept=".xlsx, .xls, .csv"
           onChange={(e) => setFile(e.target.files[0])}
           className="mt-1 block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4

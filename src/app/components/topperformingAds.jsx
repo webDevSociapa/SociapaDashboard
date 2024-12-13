@@ -1,10 +1,65 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 export default function TopPerformingAds() {
+    const [topAds,setTopAds] = useState([])
     const campaigns = [
         { sr: '01', name: 'Target Sales', Popularity: '12/12', Type: 8923 },
         { sr: '02', name: 'Target Sales', Popularity: '12/12', Type: 8923 },
         { sr: '03', name: 'Target Sales', Popularity: '12/12', Type: 8923 },
         { sr: '04', name: 'Target Sales', Popularity: '12/12', Type: 8923 },
     ];
+
+
+ 
+    
+
+    useEffect(() => {
+        const fetchStatsData = async () => {
+          try {
+            const sheetName = localStorage.getItem('sheetName')
+            if (!sheetName) {
+              setError('Sheet name not found. Please set the sheet name first.')
+              return
+            }
+    
+            const response = await axios.get(`/api/excelData?sheetName=${sheetName}`)
+            const processedData = processChartData(response.data)
+            setTopAds(processedData)
+            console.log('Processed chart data11111:', processedData)
+          } catch (error) {
+            console.error('Error fetching data:', error)
+            setError('Failed to fetch data. Please try again later.')
+          }
+        }
+    
+        fetchStatsData()
+      }, [])
+
+    const processChartData = (data) => {
+        // Assuming the data is sorted by date
+        const lastTwoMonths = data.slice(-60) // Get last 60 days (approximately 2 months)
+        console.log("lastTwoMonthssss",lastTwoMonths);
+        
+        
+        
+        return lastTwoMonths.map(item => ({
+          date: item[""] || '', // Assuming the date is in the "" column
+          impressions: parseInt(item.__EMPTY_5 || 0),
+          clicks: parseInt(item.__EMPTY_7 || 0),
+          cpc: parseInt(item.__EMPTY_8),
+          ctr: parseInt(item.__EMPTY_9)
+        }))
+      }
+
+      
+
+
+    //   const topAdsData = topAds.map((it,))
+    // const topAdsData = topAds.map((itm)=>({
+    //     const data2 = itm.clicks(()=> itm)
+    // }))
+
 
     return (
         <div className="rounded-lg border bg-white p-4">
