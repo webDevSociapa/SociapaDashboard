@@ -12,6 +12,7 @@ export function TopPerformingCreatives() {
   ]
 
   return (
+   <>
     <div className="p-4 rounded-lg border flex flex-row justify-around gap-10">
       {creatives.map((item) => (
         <div className="p-4 rounded-lg border flex flex-row justify-around gap-10">
@@ -35,6 +36,7 @@ export function TopPerformingCreatives() {
         </div>
       ))}
     </div>
+   </>
 
   )
 }

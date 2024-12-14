@@ -1,6 +1,7 @@
 'use client'
 
 import { Search, Bell } from 'lucide-react'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export function Header() {
@@ -33,7 +34,7 @@ const [brandNameData,setBrandNameData] = useState("")
         </button>
         
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src="/avatar.jpg"
             alt="User"
             className="h-8 w-8 rounded-full object-cover"
