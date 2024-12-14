@@ -14,7 +14,8 @@ export function TopPerformingCreatives() {
   return (
    <>
     <div className="p-4 rounded-lg border flex flex-row justify-around gap-10">
-      {creatives.map((item) => (
+      working
+      {/* {creatives?.map((item) => (
         <div className="p-4 rounded-lg border flex flex-row justify-around gap-10">
 
           <div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -34,7 +35,7 @@ export function TopPerformingCreatives() {
             </div>
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
    </>
 
