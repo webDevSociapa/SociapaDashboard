@@ -6,7 +6,7 @@ const processCampaignData = (data) => {
   data.forEach(item => {
     const campaignName = item['Untitled report Dec-1-2024 to Dec-11-2024'];
     const date = item[''];
-    const impressions = parseInt(item.__EMPTY_4 || 0);
+    const impressions = parseInt(item.__EMPTY_5 || 0);
     if (campaignName && campaignName !== 'Campaign name' && date) {
       if (!campaignData[campaignName]) {
         campaignData[campaignName] = { name: campaignName, date, value: 0 };

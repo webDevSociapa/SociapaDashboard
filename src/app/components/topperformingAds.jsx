@@ -55,7 +55,7 @@ export default function TopPerformingAds() {
       
 
 
-    //   const topAdsData = topAds.map((it,))
+    //   const topAdsData = topAds.map((itm,index))
     // const topAdsData = topAds.map((itm)=>({
     //     const data2 = itm.clicks(()=> itm)
     // }))
