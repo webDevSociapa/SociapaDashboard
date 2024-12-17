@@ -14,11 +14,11 @@ const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Demographics', href: '/demographics', icon: Users },
   { name: 'Following', href: '/following', icon: Heart },
-  { name: 'Channel Analysis', href: '/analysis', icon: BarChart2 },
+  { name: 'Channel Analysis', href: '/channelAnalysis', icon: BarChart2 },
   { name: 'Report', href: '/report', icon: FileText },
-  { name: 'Messages', href: '/messages', icon: MessageSquare },
-  { name: 'Login', href: '/login', icon: MessageSquare },
-  { name: 'Settings', href: '/settings', icon: Settings },
+  // { name: 'Messages', href: '/messages', icon: MessageSquare },
+  // { name: 'Login', href: '/login', icon: MessageSquare },
+  // { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
 export function Sidebar() {

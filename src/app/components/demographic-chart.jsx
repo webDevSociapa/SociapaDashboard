@@ -50,7 +50,7 @@ export function DemographicChart() {
           return;
         }
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        setCampaign(response.data);
+        // setCampaign(response.data);
         console.log('Fetched data:', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // Mock user data for email-password validation
 const users = {
   "aalishan@gmail.com": { password: "12345", fileName: "s",brand:"aalishaan" },
-  "admin@nutrela.com": { password: "123456", fileName: "e",brand:"Nutrela" },
+  "admin@nutrela.com": { password: "123456", fileName: "e",brand:"Nutrela",followSheet:"socialI" },
 };
 
 export async function POST(request) {
@@ -29,7 +29,7 @@ export async function POST(request) {
       message: "Login successful",
       fileName: user.fileName,
       brandName: user.brand,
-
+      followSheet: user.followSheet,
       status: 200
     });
   } catch (error) {

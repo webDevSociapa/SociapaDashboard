@@ -31,6 +31,7 @@ export default function LoginComponent() {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('sheetName', response.data.fileName);
                 localStorage.setItem('brandName', response.data.brandName);
+                localStorage.setItem('followSheet', response.data.followSheet);
                 // Show success toast
                 toast.success('Login successful!', {
                     position: "top-right",
