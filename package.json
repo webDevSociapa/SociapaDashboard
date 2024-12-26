@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.0",
+    "@mui/material": "^6.3.0",
+    "@mui/styled-engine-sc": "^6.3.0",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "lucide-react": "^0.465.0",
@@ -21,6 +26,7 @@
     "react-simple-maps": "^3.0.0",
     "react-toastify": "^10.0.6",
     "recharts": "^2.14.1",
+    "styled-components": "^6.1.13",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

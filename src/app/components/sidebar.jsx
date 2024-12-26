@@ -12,8 +12,8 @@ import { Menu, X } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Demographics', href: '/demographics', icon: Users },
-  { name: 'Following', href: '/following', icon: Heart },
+  // { name: 'Demographics', href: '/demographics', icon: Users },
+  // { name: 'Following', href: '/following', icon: Heart },
   { name: 'Channel Analysis', href: '/channelAnalysis', icon: BarChart2 },
   { name: 'Report', href: '/report', icon: FileText },
   // { name: 'Messages', href: '/messages', icon: MessageSquare },
@@ -42,16 +42,12 @@ export function Sidebar() {
       {/* Menu Button */}
       <button
         className="fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded-md lg:hidden"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)} // Toggle sidebar
       >
-        {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] text-white transition-transform transform ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0`}
+        className={`fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] text-white transition-transform transform`}
       >
         <div className="flex h-16 items-center gap-2 px-4">
           <Image src={SociapaLogo} width={100} height={100} alt="Sociapa" className="h-8 w-8" />
