@@ -37,6 +37,8 @@ const [brandNameData,setBrandNameData] = useState("")
           <Image
             src="/avatar.jpg"
             alt="User"
+            width={100}
+            height={100}
             className="h-8 w-8 rounded-full object-cover"
           />
           <div className="text-sm">
