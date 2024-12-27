@@ -33,6 +33,7 @@ import { Charts } from './charts';
 import { CampaignNames } from './CampaignNames';
 import { DemographicChart } from './demographic-chart';
 import TopPerformingAds from './topperformingAds';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -90,8 +91,11 @@ export default function SidebarDrawer() {
 
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
-  const handleLogout = () => alert('Logout action triggered');
-  const handleProfile = () => router.push('/');
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    router.push('/login');
+  };
+    const handleProfile = () => router.push('/');
 
 
   React.useEffect(() => {
@@ -153,17 +157,18 @@ export default function SidebarDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {navigation.map(({ name, href, icon }) => (
-            <a href={href}>
-              <ListItem key={href} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              </ListItem>
-            </a>
-          ))}
-        </List>
+  {navigation.map(({ name, href, icon }) => (
+    <ListItem key={href} disablePadding>
+      {/* Use Link component to wrap the ListItemButton */}
+      <Link href={href} passHref>
+        <ListItemButton>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={name} />
+        </ListItemButton>
+      </Link>
+    </ListItem>
+  ))}
+</List>
       </Drawer>
     </Box>
   );
