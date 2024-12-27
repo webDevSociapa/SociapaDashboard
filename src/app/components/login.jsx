@@ -26,7 +26,6 @@ export default function LoginComponent() {
         event.preventDefault();
         try {
             const response = await axios.post("/api/login", formData);
-            console.log("Response Data:", response.data.status);
             if (response.data.status === 200) {
                 // Save loggedIn state to localStorage
                 localStorage.setItem('isLoggedIn', 'true');

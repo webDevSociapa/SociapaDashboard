@@ -60,9 +60,6 @@ export function DemographicChart() {
     fetchStatsData();
   }, []);
 
-
-console.log("demoGraphic",demoGraphic);
-
   const currentData =
     platform === 'Instagram' ? instagramData.followersByGenderAndAge : facebookData.followersByGenderAndAge;
   const genderData = [

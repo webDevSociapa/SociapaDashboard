@@ -14,7 +14,6 @@ const processCampaignData = (data) => {
       campaignData[campaignName].value += impressions;
     }
   });
-  console.log("campaignData", campaignData);
   
   return Object.values(campaignData);
 };

@@ -32,7 +32,6 @@ export default function ChannelAnalysis() {
             setReportStatus("Failed to download the report. Please try again.");
         }
     };
-
     return (
         <>
             <div className="container mx-auto my-8">
@@ -52,6 +51,7 @@ export default function ChannelAnalysis() {
                     )}
                 </div>
             </div>
+
             <ToastContainer />
 
         </>
