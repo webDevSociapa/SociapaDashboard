@@ -10,7 +10,7 @@ export default function TopPerformingAds() {
     useEffect(() => {
         const fetchStatsData = async () => {
             try {
-                const sheetName = localStorage.getItem("sheetName");
+                const sheetName = localStorage.getItem("sheetName1");
                 if (!sheetName) {
                     setError("Sheet name not found. Please set the sheet name first.");
                     return;
@@ -18,33 +18,41 @@ export default function TopPerformingAds() {
                 const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
                 const processedData = processChartData(response.data);
                 setTopAds(processedData);
+                console.log("topAds",topAds);
+                
                 console.log("Processed chart data:", processedData);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError("Failed to fetch data. Please try again later.");
             }
         };
-
         fetchStatsData();
     }, []);
 
     const processChartData = (data) => {
-        // Filter and map the data to ensure valid values
-        const agencyData = data.map((item) => ({
-            impression: parseInt(item.__EMPTY_5 || 0),
-            ctr: parseFloat(item.__EMPTY_8 || 0),
-            cpc: parseFloat(item.__EMPTY_9 || 0),
-            campaignName: item["Untitled report Dec-1-2024 to Dec-11-2024"] || "Unknown Campaign",
-        }));
-
+        // Log the full data to inspect its structure
+        console.log("Raw data:", data);
+    
+        const agencyData = data.map((item) => {
+            // Check if the expected key exists, otherwise, fall back to another key
+            const campaignName = item["Ad Name report Dec-1-2024 to Dec-27-2024"] || item["Ad Name"] || "Unknown Campaign";
+            
+            return {
+                campaignName: campaignName,
+                impression: parseInt(item["__EMPTY_4"] || 0),
+                ctr: parseFloat(item["__EMPTY_8"] || 0),
+                cpc: parseFloat(item["__EMPTY_7"] || 0),
+                clicks: parseInt(item["__EMPTY_6"] || 0),
+            };
+        });
+    
         // Filter out invalid or NaN values
-        const filteredData = agencyData.filter(item => 
-            !isNaN(item.impression) && item.impression > 0 &&
-            !isNaN(item.ctr) && item.ctr > 0 &&
-            !isNaN(item.cpc) && item.cpc > 0
+        const filteredData = agencyData?.filter(item =>
+            !isNaN(item?.impression) && item?.impression > 0 &&
+            !isNaN(item?.ctr) && item?.ctr > 0 &&
+            !isNaN(item?.cpc) && item?.cpc > 0
         );
-
-
+    
         // Sort data: by impressions (desc), then by ctr (desc), then by cpc (asc)
         const sortedData = filteredData.sort((a, b) => {
             if (b.impression !== a.impression) {
@@ -55,13 +63,11 @@ export default function TopPerformingAds() {
             }
             return a.cpc - b.cpc; // Sort by CPC (asc)
         });
-
-        console.log("sortedData",sortedData);
-        
-
+    
         // Return the top 5 ads
         return sortedData.slice(0, 5);
     };
+    
 
     return (
         <div className="rounded-lg border bg-white p-4">
@@ -88,7 +94,7 @@ export default function TopPerformingAds() {
                                 <td className="px-4 py-2">{ad.impression}</td>
                                 <td className="px-4 py-2">{ad.clicks}</td>
                                 <td className="px-4 py-2">{ad.ctr.toFixed(2)}</td>
-                                <td className="px-4 py-2">${ad.cpc.toFixed(2)}</td>
+                                <td className="px-4 py-2">{ad.cpc.toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>

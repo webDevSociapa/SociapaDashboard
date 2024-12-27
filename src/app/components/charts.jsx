@@ -1,60 +1,60 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-
-
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export function Charts() {
-  const [chartData, setChartData] = useState([])
-  const [error, setError] = useState(null)
+  const [chartData, setChartData] = useState([]);
+  const [error, setError] = useState(null);
 
+
+
+  const processChartData = (data) => {
+    console.log("data",data);
+    
+    // Filter and map data
+    return data.map(item => ({
+      date: item["Date Wise report Dec-1-2024 to Dec-27-2024"] || '', // Adjust for correct key
+      impressions: parseInt(item.__EMPTY_4 || 0),
+      clicks: parseInt(item.__EMPTY_6 || 0),
+      cpc: parseFloat(item.__EMPTY_7 || 0),
+      ctr: parseFloat(item.__EMPTY_8 || 0),
+    })).filter(item => item.date) // Filter out items with empty dates
+      .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
+  };
+  
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const sheetName = localStorage.getItem('sheetName')
+        const sheetName = localStorage.getItem('sheetName3');
         if (!sheetName) {
-          setError('Sheet name not found. Please set the sheet name first.')
-          return
+          setError('Sheet name not found. Please set the sheet name first.');
+          return;
         }
 
-        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`)
-        const processedData = processChartData(response.data)
-        setChartData(processedData)
-        console.log('Processed chart data:', processedData)
+        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+        const processedData = processChartData(response.data);
+        setChartData(processedData);
+        console.log();
+        
+        console.log('Processed chart data:', processedData);
       } catch (error) {
-        console.error('Error fetching data:', error)
-        setError('Failed to fetch data. Please try again later.')
+        console.error('Error fetching data:', error);
+        setError('Failed to fetch data. Please try again later.');
       }
-    }
+    };
 
-    fetchStatsData()
-  }, [])
-
-  const processChartData = (data) => {
-    // Assuming the data is sorted by date
-    const lastTwoMonths = data.slice(-60) // Get last 60 days (approximately 2 months)
-    console.log("lastTwoMonthssss",lastTwoMonths);
-    
-    
-    
-    return lastTwoMonths.map(item => ({
-      date: item[""] || '', // Assuming the date is in the "" column
-      impressions: parseInt(item.__EMPTY_5 || 0),
-      clicks: parseInt(item.__EMPTY_7 || 0),
-      cpc: parseInt(item.__EMPTY_8),
-      ctr: parseInt(item.__EMPTY_9)
-    }))
-  }
+    fetchStatsData();
+  }, []);  
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return `${date.getMonth() + 1}/${date.getDate()}`
-  }
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}/${date.getDate()}`;
+  };
 
   if (error) {
-    return <div className="text-red-500 text-center p-4">{error}</div>
+    return <div className="text-red-500 text-center p-4">{error}</div>;
   }
 
   return (
@@ -68,7 +68,7 @@ export function Charts() {
               <XAxis
                 dataKey="date"
                 tickFormatter={formatDate}
-                interval={Math.ceil(chartData.length)}
+                interval={Math.ceil(chartData.length / 10)}
                 stroke="#6b7280"
               />
               <YAxis stroke="#6b7280" />
@@ -102,7 +102,7 @@ export function Charts() {
               <XAxis
                 dataKey="date"
                 tickFormatter={formatDate}
-                interval={Math.ceil(chartData.length / 6)}
+                interval={Math.ceil(chartData.length / 10)}
                 stroke="#6b7280"
               />
               <YAxis stroke="#6b7280" />
@@ -128,6 +128,5 @@ export function Charts() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

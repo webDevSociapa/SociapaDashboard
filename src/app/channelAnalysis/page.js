@@ -9,7 +9,7 @@ export default function ChannelAnalysis() {
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const sheetName = localStorage.getItem('sheetName');
+        const sheetName = localStorage.getItem('sheetName3');
         if (!sheetName) {
           console.error('Sheet name not found in localStorage');
           return;

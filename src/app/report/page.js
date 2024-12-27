@@ -8,7 +8,7 @@ export default function ChannelAnalysis() {
     const handleReportDownload = async () => {
         try {
             setReportStatus("Downloading...");
-            const sheetName = localStorage.getItem('sheetName')
+            const sheetName = localStorage.getItem('sheetName1')
             // Update the URL with the correct query parameter
             const response = await fetch(`/api/downloadReport?sheetName=${sheetName}`, {
                 method: "GET",

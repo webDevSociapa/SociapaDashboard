@@ -6,7 +6,6 @@ export default function ExcelUploadForm() {
   const [file, setFile] = useState(null);
   const [sheetName, setSheetName] = useState('');
   const [message, setMessage] = useState('');
-  const [successStatus,setSuccessStatus] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();

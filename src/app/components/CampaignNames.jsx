@@ -1,45 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const processCampaignData = (data) => {
-  const campaignData = {};
-  data.forEach(item => {
-    const campaignName = item['Untitled report Dec-1-2024 to Dec-11-2024'];
-    const date = item[''];
-    const impressions = parseInt(item.__EMPTY_5 || 0);
-    if (campaignName && campaignName !== 'Campaign name' && date) {
-      if (!campaignData[campaignName]) {
-        campaignData[campaignName] = { name: campaignName, date, value: 0 };
-      }
-      campaignData[campaignName].value += impressions;
-    }
-  });
-  
-  return Object.values(campaignData);
-};
+
 
 export function CampaignNames() {
   const [campaigns, setCampaigns] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const sheetName = localStorage.getItem('sheetName');
+        const sheetName = localStorage.getItem('sheetName2');
         if (!sheetName) {
-          console.error('Sheet name not found in localStorage');
+          setError('Sheet name not found in localStorage');
           return;
         }
+
+        // Replace '/api/excelData' with your actual API endpoint
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        const processedData = processCampaignData(response.data);
-        setCampaigns(processedData);
-        console.log('Processed campaign data:', processedData);
+        console.log("response.data",response.data);
+        
+
+        if (response && response.data) {
+          const processedData = processCampaignData(response.data);
+          setCampaigns(processedData);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
+        setError('Failed to fetch campaign data. Please try again later.');
       }
     };
 
     fetchStatsData();
   }, []);
+
+  // Function to process campaign data from the API response
+  const processCampaignData = (data) => {
+    const campaignData = {};
+    
+    // Iterate through each item in the dataset
+    data.forEach(item => {
+      const campaignName = item['Campaign Name report Dec-1-2024 to Dec-27-2024'];
+      const date = item['Report Period: Dec 1, 2024 - Dec 27, 2024']; // Using the correct date field
+      const impressions = parseInt(item['__EMPTY_4'] || 0); // Impressions data
+  
+      // Skip invalid or header data (e.g., row with campaign name as a header)
+      if (!campaignName || campaignName === 'Campaign name' || !date) {
+        return;
+      }
+  
+      // Initialize the campaign if it's the first occurrence
+      if (!campaignData[campaignName]) {
+        campaignData[campaignName] = { name: campaignName, date, value: 0 };
+      }
+      
+      // Accumulate the impressions for the same campaign
+      campaignData[campaignName].value += impressions;
+    });
+  
+    // Return the processed data as an array
+    return Object.values(campaignData);
+  };
+  
 
   return (
     <div className="rounded-lg border bg-white p-4">
@@ -48,10 +70,12 @@ export function CampaignNames() {
         <h3 className="mb-4 text-lg font-medium">Impression</h3>
       </div>
       <div className="space-y-2">
+        {error && <p className="text-red-500">{error}</p>}
+        
         {campaigns?.length > 0 ? (
           campaigns
-            .sort((a, b) => b.value - a.value) // Sort by value in descending order
-            .slice(0, 5) // Only show the top 5 campaigns
+            .sort((a, b) => b.value - a.value) // Sort by impressions value in descending order
+            .slice(0, 5) // Only show top 5 campaigns
             .map((campaign, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div>

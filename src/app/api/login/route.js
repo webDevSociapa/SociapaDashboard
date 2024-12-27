@@ -2,8 +2,24 @@ import { NextResponse } from "next/server";
 
 // Mock user data for email-password validation
 const users = {
-  "aalishan@gmail.com": { password: "12345", fileName: "s",brand:"aalishaan" },
-  "admin@nutrela.com": { password: "123456", fileName: "e",brand:"Nutrela",followSheet:"instaData" },
+  "aalishan@gmail.com": {
+    brandName:"aalishaan",
+    password: "12345",
+    fileName1: "AdName",
+    fileName2: "campName",
+    fileName3: "dwise",
+    fileName4: "fbP",
+    fileName5: "instaP",
+  },
+  "admin@nutrela.com": {
+    brandName:"nutrela",
+    password: "123456",
+    fileName1: "AdName",
+    fileName2: "campName",
+    fileName3: "dwise",
+    fileName4: "fbP",
+    fileName5: "instaP",
+  },
 };
 
 export async function POST(request) {
@@ -24,12 +40,12 @@ export async function POST(request) {
         { status: 401 }
       );
     }
+    const { password: _, ...fileNames } = user;
+    
 
     return NextResponse.json({
       message: "Login successful",
-      fileName: user.fileName,
-      brandName: user.brand,
-      followSheet: user.followSheet,
+      usersData: fileNames,
       status: 200
     });
   } catch (error) {

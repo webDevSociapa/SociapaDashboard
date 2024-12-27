@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,12 +25,17 @@ export default function LoginComponent() {
         event.preventDefault();
         try {
             const response = await axios.post("/api/login", formData);
+            console.log("reeee",response);
+            
             if (response.data.status === 200) {
                 // Save loggedIn state to localStorage
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('sheetName', response.data.fileName);
-                localStorage.setItem('brandName', response.data.brandName);
-                localStorage.setItem('followSheet', response.data.followSheet);
+                localStorage.setItem('sheetName1', response.data.usersData.fileName1);
+                localStorage.setItem('sheetName2', response.data.usersData.fileName2);
+                localStorage.setItem('sheetName3', response.data.usersData.fileName3);
+                localStorage.setItem('sheetName4', response.data.usersData.fileName4);
+                localStorage.setItem('sheetName5', response.data.usersData.fileName5);
+                localStorage.setItem('brandName',response.data.usersData.brandName);
                 // Show success toast
                 toast.success('Login successful!', {
                     position: "top-right",
@@ -67,7 +71,6 @@ export default function LoginComponent() {
             });
         }
     };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
