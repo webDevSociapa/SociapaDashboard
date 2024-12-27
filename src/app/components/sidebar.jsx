@@ -1,86 +1,170 @@
-'use client'
-
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+"use client";
+import * as React from 'react';
+import { styled, useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
-import SociapaLogo from '../../../public/img/SociapaLogo.png';
-import { LayoutDashboard, Users, Heart, BarChart2, FileText, MessageSquare, Settings, LogOut } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import {
+  Box,
+  Drawer,
+  CssBaseline,
+  AppBar as MuiAppBar,
+  Toolbar,
+  Typography,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Image from 'next/image';
+import Logo from '../../../public/img/SociapaLogo.png';
+import { StatsCards } from './stats-cards';
+import { Charts } from './charts';
+import { CampaignNames } from './CampaignNames';
+import { DemographicChart } from './demographic-chart';
+import TopPerformingAds from './topperformingAds';
 
+const drawerWidth = 240;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: open ? 0 : `-${drawerWidth}px`,
+  })
+);
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  backgroundColor: '#000',
+  color: 'white',
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: 'space-between',
+}));
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  // { name: 'Demographics', href: '/demographics', icon: Users },
-  // { name: 'Following', href: '/following', icon: Heart },
-  { name: 'Channel Analysis', href: '/channelAnalysis', icon: BarChart2 },
-  { name: 'Report', href: '/report', icon: FileText },
-  // { name: 'Messages', href: '/messages', icon: MessageSquare },
-  // { name: 'Login', href: '/login', icon: MessageSquare },
-  // { name: 'Settings', href: '/settings', icon: Settings },
-]
+  { name: 'Dashboard', href: '/', icon: <DashboardIcon /> },
+  { name: 'Channel Analysis', href: '/channelAnalysis', icon: <EqualizerIcon /> },
+  { name: 'Report', href: '/report', icon: <AssessmentIcon /> },
+];
 
-export function Sidebar() {
-  const pathname = usePathname();
+export default function SidebarDrawer() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    router.push('/login');
-  };
-  
-  useEffect(() => {
-    const localStorageStatus = localStorage.getItem('isLoggedIn');
-    if (localStorageStatus === "true") {
-      router.push('/')
+  const [brandName, setBrandName] = React.useState(null);
+
+
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
+  const handleLogout = () => alert('Logout action triggered');
+  const handleProfile = () => router.push('/');
+
+
+  React.useEffect(() => {
+    // This will only run on the client side
+    const storedBrandName = localStorage.getItem("brandName");
+    if (storedBrandName) {
+      setBrandName(storedBrandName);
     }
-  }, [router]);
+  }, []);
 
   return (
-    <div>
-      {/* Menu Button */}
-      <button
-        className="fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded-md lg:hidden"
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            <a href={"/"}>
+              <Image src={Logo} alt="Logo" width={40} height={40} />
+            </a>
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button startIcon={<AccountCircleIcon />} color="inherit" onClick={handleProfile}>
+            {brandName || "Loading..."}
+          </Button>
+          <Button startIcon={<LogoutIcon />} color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
       >
-      </button>
-
-      {/* Sidebar */}
-      <div
-        className={`fixed left-0 top-0 h-screen w-64 bg-[#1a1a1a] text-white transition-transform transform`}
-      >
-        <div className="flex h-16 items-center gap-2 px-4">
-          <Image src={SociapaLogo} width={100} height={100} alt="Sociapa" className="h-8 w-8" />
-          <span className="text-xl font-semibold">Sociapa</span>
-        </div>
-
-        <nav className="flex-1 space-y-1 px-2 py-4">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                  isActive
-                    ? 'bg-white/10 text-white'
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="p-2" onClick={handleLogout}>
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white">
-            <LogOut className="h-5 w-5" />
-            Sign Out
-          </button>
-        </div>
-      </div>
-    </div>
+        <DrawerHeader>
+          <Typography variant="h6" sx={{ ml: 2 }}>
+            Menu
+          </Typography>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {navigation.map(({ name, href, icon }) => (
+            <a href={href}>
+              <ListItem key={href} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItemButton>
+              </ListItem>
+            </a>
+          ))}
+        </List>
+      </Drawer>
+    </Box>
   );
 }

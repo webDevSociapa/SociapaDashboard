@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Card, Paper } from '@mui/material';
 
 export default function LoginComponent() {
     const router = useRouter();
@@ -74,7 +75,8 @@ export default function LoginComponent() {
     };
 
     return (
-        <div className="min-h-screen flex">
+      <Paper>
+          <div className="min-h-screen flex">
             {/* Left Side - Login Form */}
             <div className="flex-1 flex items-center justify-center p-8 sm:p-12 lg:p-16">
                 <div className="w-full max-w-sm">
@@ -202,6 +204,7 @@ export default function LoginComponent() {
             {/* Toast Container */}
             <ToastContainer />
         </div>
+      </Paper>
     );
 }
 
