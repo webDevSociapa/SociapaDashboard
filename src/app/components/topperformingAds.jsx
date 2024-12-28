@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function TopPerformingAds() {
     const [topAds, setTopAds] = useState([]);
@@ -18,8 +19,7 @@ export default function TopPerformingAds() {
                 const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
                 const processedData = processChartData(response.data);
                 setTopAds(processedData);
-                console.log("topAds",topAds);
-                
+                console.log("topAds", topAds);
                 console.log("Processed chart data:", processedData);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -67,7 +67,24 @@ export default function TopPerformingAds() {
         // Return the top 5 ads
         return sortedData.slice(0, 5);
     };
-    
+
+    const columns = [
+        { field: 'id', headerName: 'SN', width: 90 },
+        { field: 'campaignName', headerName: 'Campaign Name', width: 250 },
+        { field: 'impression', headerName: 'Impressions', type: 'number', width: 150 },
+        { field: 'clicks', headerName: 'Clicks', type: 'number', width: 150 },
+        { field: 'ctr', headerName: 'CTR (%)', type: 'number', width: 150 },
+        { field: 'cpc', headerName: 'CPC', type: 'number', width: 150 },
+    ];
+
+    const rows = topAds.map((ad, index) => ({
+        id: index + 1,  // Ensure each row has a unique id
+        campaignName: ad.campaignName,
+        impression: ad.impression,
+        clicks: ad.clicks,
+        ctr: ad.ctr.toFixed(2),
+        cpc: ad.cpc.toFixed(2),
+    }));
 
     return (
         <div className="rounded-lg border bg-white p-4">
@@ -75,30 +92,15 @@ export default function TopPerformingAds() {
             {error ? (
                 <p className="text-red-500">{error}</p>
             ) : (
-                <table className="w-full border-collapse">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="py-2 text-left">SN</th>
-                            <th className="px-4 py-2 text-left">Campaign Name</th>
-                            <th className="px-4 py-2 text-left">Impressions</th>
-                            <th className="px-4 py-2 text-left">Clicks</th>
-                            <th className="px-4 py-2 text-left">CTR (%)</th>
-                            <th className="px-4 py-2 text-left">CPC</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {topAds && topAds.map((ad, index) => (
-                            <tr key={index} className="hover:bg-gray-50">
-                                <td className="px-4 py-2">{index + 1}</td>
-                                <td className="px-4 py-2">{ad.campaignName}</td>
-                                <td className="px-4 py-2">{ad.impression}</td>
-                                <td className="px-4 py-2">{ad.clicks}</td>
-                                <td className="px-4 py-2">{ad.ctr.toFixed(2)}</td>
-                                <td className="px-4 py-2">{ad.cpc.toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        disableSelectionOnClick
+                    />
+                </div>
             )}
         </div>
     );

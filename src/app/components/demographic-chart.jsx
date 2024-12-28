@@ -1,79 +1,90 @@
-'use client'
-
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 
-const data = [
-  { name: 'Male', value: 63 },
-  { name: 'Female', value: 25 },
-  { name: 'Other', value: 12 },
-]
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28']
-
 export function DemographicChart() {
-  const [demoGraphic, setDemoGraphic] = useState([])
   const [platform, setPlatform] = useState('Instagram');
-
-
-  const instagramData = {
-    followersByGenderAndAge: [
-      { age: '18-24', women: 5.1, men: 50.6 },
-      { age: '25-34', women: 3.4, men: 30.3 },
-      { age: '35-44', women: 0.8, men: 8.3 },
-      { age: '45-54', women: 0.1, men: 0.7 },
-      { age: '55-64', women: 0.1, men: 0.2 },
-      { age: '65+', women: 0.1, men: 0.3 }
-    ]
-  };
-
-  const facebookData = {
-    followersByGenderAndAge: [
-      { age: '18-24', women: 10.1, men: 40.6 },
-      { age: '25-34', women: 6.4, men: 35.3 },
-      { age: '35-44', women: 1.8, men: 12.3 },
-      { age: '45-54', women: 0.5, men: 3.2 },
-      { age: '55-64', women: 0.2, men: 0.8 },
-      { age: '65+', women: 0.1, men: 0.5 }
-    ]
-  };
-
-
+  const [fbData, setFbData] = useState(null);
+  const [instaData, setInstaData] = useState(null);
 
   useEffect(() => {
-    const fetchStatsData = async () => {
+    const fetchStatsDataInsta = async () => {
       try {
-        const sheetName = localStorage.getItem('followSheet');
+        const sheetName = localStorage.getItem('sheetName5');
         if (!sheetName) {
           console.error('Sheet name not found in localStorage');
           return;
         }
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        setDemoGraphic(response.data);
-        console.log('Fetched data454545:', response.data);
+        setInstaData(response.data);
+        console.log('Fetched Instagram data:', response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching Instagram data:', error);
       }
     };
 
-    fetchStatsData();
+    const fetchStatsDataFb = async () => {
+      try {
+        const sheetName = localStorage.getItem('sheetName4');
+        if (!sheetName) {
+          console.error('Sheet name not found in localStorage');
+          return;
+        }
+        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+        setFbData(response.data);
+        console.log('Fetched Facebook data:', response.data);
+      } catch (error) {
+        console.error('Error fetching Facebook data:', error);
+      }
+    };
+
+    fetchStatsDataInsta();
+    fetchStatsDataFb();
   }, []);
 
-  const currentData =
-    platform === 'Instagram' ? instagramData.followersByGenderAndAge : facebookData.followersByGenderAndAge;
-  const genderData = [
-    { name: 'Women', value: currentData.reduce((acc, ageGroup) => acc + ageGroup.women, 0) },
-    { name: 'Men', value: currentData.reduce((acc, ageGroup) => acc + ageGroup.men, 0) }
+  // Helper function to process the gender data from both Instagram and Facebook data
+  const processGenderData = (data) => {
+    return data?.map((entry) => ({
+      name: entry["Instagram followers"] || entry["Facebook followers"],
+      women: parseFloat(entry["__EMPTY"]) || 0,
+      men: parseFloat(entry["__EMPTY_1"]) || 0
+    }));
+  };
+
+  const currentData = platform === 'Instagram' && instaData ? instaData : fbData;
+  
+  // Process the gender and age data from the API response
+  const genderData = currentData
+    ? processGenderData(currentData)
+    : [];
+
+  // Calculate the total followers for the selected platform
+  const totalFollowers = platform === 'Instagram' && instaData 
+    ? instaData[1]["Instagram followers"]
+    : platform === 'Facebook' && fbData 
+    ? fbData[1]["Facebook followers"]
+    : 0;
+
+  // Calculate the total percentage for women and men
+  const totalWomen = genderData.reduce((acc, { women }) => acc + women, 0);
+  const totalMen = genderData.reduce((acc, { men }) => acc + men, 0);
+
+  // Convert these values into percentages
+  const total = totalWomen + totalMen;
+  const womenPercentage = (totalWomen / total) * 100;
+  const menPercentage = (totalMen / total) * 100;
+
+  // Pie chart data
+  const genderPieData = [
+    { name: 'Women', value: womenPercentage },
+    { name: 'Men', value: menPercentage },
   ];
 
   const COLORS = ['#8884d8', '#82ca9d'];
 
-
   return (
     <div className="rounded-lg border bg-white p-4">
       <h3 className="mb-4 text-lg font-medium">Demographic</h3>
-      <div>Followers : 5167</div>
       <div className="flex justify-center mb-4">
         <select
           className="block w-1/2 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200"
@@ -83,24 +94,23 @@ export function DemographicChart() {
           <option value="Instagram">Instagram</option>
           <option value="Facebook">Facebook</option>
         </select>
-        {/* <select className='border border-gray-300 text-gray-700 block w-1/2 px-4 shadow-sm py-2 focus:outline-none focus:ring focus:ring-indigo-200'>
-            <option value="instagram">Instagram</option>
-            <option value = "fb">Facebook</option>
-          </select> */}
+      </div>
+      <div className="text-center mb-4">
+        <h4>Total Followers: {totalFollowers}</h4>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
-            data={genderData}
+            data={genderPieData}
             cx="50%"
             cy="50%"
-            label={({ name, value }) => `${name}: ${value}%`}
+            label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
             outerRadius={80}
             fill="#8884d8"
             dataKey="value"
           >
-            {genderData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            {genderPieData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length.toFixed(2)]} />
             ))}
           </Pie>
           <Tooltip />
@@ -108,6 +118,5 @@ export function DemographicChart() {
         </PieChart>
       </ResponsiveContainer>
     </div>
-  )
+  );
 }
-

@@ -26,7 +26,6 @@ export default function LoginComponent() {
         try {
             const response = await axios.post("/api/login", formData);
             console.log("reeee",response);
-            
             if (response.data.status === 200) {
                 // Save loggedIn state to localStorage
                 localStorage.setItem('isLoggedIn', 'true');
@@ -59,9 +58,7 @@ export default function LoginComponent() {
                 });
             }
         } catch (error) {
-            console.error("Login error:", error);
-            // Show error toast
-            toast.error('An error occurred. Please try again later.', {
+            toast.error('Please fill correct credentials.', {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,

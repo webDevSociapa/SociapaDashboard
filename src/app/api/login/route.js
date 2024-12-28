@@ -5,7 +5,7 @@ const users = {
   "aalishan@gmail.com": {
     brandName:"aalishaan",
     password: "12345",
-    fileName1: "AdName",
+    fileName1: "AdName2",
     fileName2: "campName",
     fileName3: "dwise",
     fileName4: "fbP",
@@ -14,7 +14,7 @@ const users = {
   "admin@nutrela.com": {
     brandName:"nutrela",
     password: "123456",
-    fileName1: "AdName",
+    fileName1: "AdName2",
     fileName2: "campName",
     fileName3: "dwise",
     fileName4: "fbP",

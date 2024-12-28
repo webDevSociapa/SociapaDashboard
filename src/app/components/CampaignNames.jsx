@@ -18,8 +18,8 @@ export function CampaignNames() {
 
         // Replace '/api/excelData' with your actual API endpoint
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        console.log("response.data",response.data);
-        
+        console.log("response.data", response.data);
+
 
         if (response && response.data) {
           const processedData = processCampaignData(response.data);
@@ -37,31 +37,32 @@ export function CampaignNames() {
   // Function to process campaign data from the API response
   const processCampaignData = (data) => {
     const campaignData = {};
-    
+
     // Iterate through each item in the dataset
     data.forEach(item => {
       const campaignName = item['Campaign Name report Dec-1-2024 to Dec-27-2024'];
       const date = item['Report Period: Dec 1, 2024 - Dec 27, 2024']; // Using the correct date field
       const impressions = parseInt(item['__EMPTY_4'] || 0); // Impressions data
-  
+
       // Skip invalid or header data (e.g., row with campaign name as a header)
       if (!campaignName || campaignName === 'Campaign name' || !date) {
         return;
       }
-  
+
       // Initialize the campaign if it's the first occurrence
       if (!campaignData[campaignName]) {
         campaignData[campaignName] = { name: campaignName, date, value: 0 };
       }
-      
+
       // Accumulate the impressions for the same campaign
       campaignData[campaignName].value += impressions;
     });
-  
+
     // Return the processed data as an array
     return Object.values(campaignData);
   };
   
+
 
   return (
     <div className="rounded-lg border bg-white p-4">
@@ -71,7 +72,7 @@ export function CampaignNames() {
       </div>
       <div className="space-y-2">
         {error && <p className="text-red-500">{error}</p>}
-        
+
         {campaigns?.length > 0 ? (
           campaigns
             .sort((a, b) => b.value - a.value) // Sort by impressions value in descending order

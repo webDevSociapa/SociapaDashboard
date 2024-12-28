@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Paper } from "@mui/material";
 
 export default function ChannelAnalysis() {
   const [statsData, setStatsData] = useState([]);
@@ -31,79 +33,54 @@ export default function ChannelAnalysis() {
     fetchStatsData();
   }, []);
 
+  const columns = [
+    { field: 'id', headerName: 'SR', width: 90 },
+    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'campaignName', headerName: 'Campaign Name', width: 180 },
+    { field: 'deliveryStatus', headerName: 'Delivery Status', width: 180 },
+    { field: 'deliveryLevel', headerName: 'Delivery Level', width: 180 },
+    { field: 'reach', headerName: 'Reach', width: 120 },
+    { field: 'frequency', headerName: 'Frequency', width: 120 },
+    { field: 'impressions', headerName: 'Impressions', width: 180 },
+    { field: 'amountSpent', headerName: 'Amount spent (INR)', width: 180 },
+    { field: 'ctr', headerName: 'CTR (all)', width: 120 },
+    { field: 'resultType', headerName: 'Result Type', width: 180 },
+    { field: 'resultRate', headerName: 'Result rate', width: 150 },
+    { field: 'results', headerName: 'Results', width: 120 },
+  ];
+
+  const rows = statsData.map((item, index) => ({
+    id: index + 1,
+    date: item[""] || "N/A",
+    campaignName: item["Untitled report Dec-1-2024 to Dec-11-2024"] || "N/A",
+    deliveryStatus: item["Report Period: Dec 1, 2024 - Dec 11, 2024"] || "N/A",
+    deliveryLevel: item["__EMPTY_2"] || "N/A",
+    reach: item["__EMPTY_3"] || "N/A",
+    frequency: item["__EMPTY_4"] || "N/A",
+    impressions: item["__EMPTY_5"] || "N/A",
+    amountSpent: item["__EMPTY_7"] || "N/A",
+    ctr: item["__EMPTY_8"] || "N/A",
+    resultType: item["__EMPTY_9"] || "N/A",
+    resultRate: item["__EMPTY_10"] || "N/A",
+    results: item["__EMPTY_11"] || "N/A",
+  }));
+
   return (
-    <div className="container mx-auto p-4">
+    <Paper sx={{mt:8}}>
+      <div className="container mx-auto pt-14">
       <h1 className="text-2xl font-bold text-center mb-6">Channel Analysis</h1>
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border border-gray-300">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-4 py-2 border">SR</th>
-              <th className="px-6 py-4 border">Date</th>
-              <th className="px-4 py-2 border">Campaign Name</th>
-              <th className="px-4 py-2 border">Delivery Status</th>
-              <th className="px-4 py-2 border">Delivery Level</th>
-              <th className="px-4 py-2 border">Reach</th>
-              <th className="px-4 py-2 border">Frequency</th>
-              <th className="px-4 py-2 border">Impressions</th>
-              <th className="px-4 py-2 border">Amount spent (INR)</th>
-              <th className="px-4 py-2 border">CTR (all)</th>
-              <th className="px-4 py-2 border">Result Type</th>
-              <th className="px-4 py-2 border">Result rate</th>
-              <th className="px-4 py-2 border">Results</th>
-            </tr>
-          </thead>
-          <tbody>
-            {statsData.map((item, index) => (
-              <tr
-                key={index}
-                className={`${
-                  item[""] === currentDate ? "bg-yellow-100" : "bg-white"
-                } hover:bg-gray-100`}
-              >
-                <td className="px-4 py-2 border text-center">{index + 1}</td>
-                <td className="px-4 py-2 border text-center">{item[""] || "N/A"}</td>
-                <td className="px-4 py-2 border">
-                  {item["Untitled report Dec-1-2024 to Dec-11-2024"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["Report Period: Dec 1, 2024 - Dec 11, 2024"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_2"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_3"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_4"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_5"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_7"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_8"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_9"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_10"] || "N/A"}
-                </td>
-                <td className="px-4 py-2 border">
-                  {item["__EMPTY_11"] || "N/A"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div style={{ height: 800, width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          disableSelectionOnClick
+          getRowClassName={(params) =>
+            params.row.date === currentDate ? 'bg-yellow-100' : ''
+          }
+        />
       </div>
     </div>
+    </Paper>
   );
 }
-
-
-
