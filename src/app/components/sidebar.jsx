@@ -78,7 +78,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: <DashboardIcon /> },
-  { name: 'Channel Analysis', href: '/channelAnalysis', icon: <EqualizerIcon /> },
+  { name: 'Data File', href: '/dataFile', icon: <EqualizerIcon /> },
   { name: 'Report', href: '/report', icon: <AssessmentIcon /> },
 ];
 

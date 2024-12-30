@@ -42,20 +42,20 @@ export function StatsCards() {
 
   // Filter data by date range
   // Filter data by dynamic date range
-const filteredData = statsData.filter((item) => {
-  // Dynamically find the key that contains "Date Wise report"
-  const dateKey = Object.keys(item).find((key) =>
-    key.includes("Date Wise report")
-  );
+  const filteredData = statsData.filter((item) => {
+    // Dynamically find the key that contains "Date Wise report"
+    const dateKey = Object.keys(item).find((key) =>
+      key.includes("Date Wise report")
+    );
 
 
-  if (!dateKey) return false; // Skip if no date key is found
+    if (!dateKey) return false; // Skip if no date key is found
 
-  const date = item[dateKey];
-  return date >= startDate && date <= endDate;
-});
-console.log("filteredData",filteredData);
-  
+    const date = item[dateKey];
+    return date >= startDate && date <= endDate;
+  });
+  console.log("filteredData", filteredData);
+
 
 
 
@@ -68,7 +68,7 @@ console.log("filteredData",filteredData);
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
-        <p>No data available for the selected date range.</p>
+        <p>Please select correct Date No data available for the selected date range.</p>
       </div>
     );
   }
@@ -95,15 +95,16 @@ console.log("filteredData",filteredData);
   // Derived metrics
   const aggregatedCpc = (aggregatedMetrics.amountSpent / aggregatedMetrics.clicks).toFixed(2) || '0.00'; // Cost Per Click
   const aggregatedCtr = ((aggregatedMetrics.clicks / aggregatedMetrics.impressions) * 100).toFixed(2) || '0.00'; // CTR
+  const aggregatedFrequency = (aggregatedMetrics.impressions / aggregatedMetrics.reach).toFixed(2) || '0.00'; // Frequency
 
   const stats = [
-    { title: 'CPC(cost par click)', value: `${aggregatedCpc} INR` },
+    { title: 'CPC(cost per click)', value: `${aggregatedCpc} INR` },
     { title: 'CTR(click-through rate)', value: `${aggregatedCtr}%` },
     { title: 'Reach', value: aggregatedMetrics.reach },
     { title: 'Impressions', value: aggregatedMetrics.impressions },
     { title: 'Clicks', value: aggregatedMetrics.clicks },
     { title: 'Amount Spent', value: `${aggregatedMetrics.amountSpent.toFixed(2)} INR` },
-    { title: 'Frequency', value: aggregatedMetrics.frequency.toFixed(2) },
+    { title: 'Frequency', value: `${aggregatedFrequency}`}, 
   ];
 
   return (

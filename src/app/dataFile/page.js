@@ -58,9 +58,6 @@ export default function ChannelAnalysis() {
       key.startsWith("Report Period:")
     );
 
-    console.log("statsData",statsData);
-    
-  
     return {
       id: index + 1,
       date: item[campaignNameKey] || "N/A", // Adjust key if necessary
@@ -77,24 +74,24 @@ export default function ChannelAnalysis() {
       results: item["__EMPTY_11"] || "N/A",
     };
   });
-  
+
 
   return (
-    <Paper sx={{mt:8}}>
+    <Paper sx={{ mt: 8 }}>
       <div className="container mx-auto pt-14">
-      <h1 className="text-2xl font-bold text-center mb-6">Channel Analysis</h1>
-      <div style={{ height: 800, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          disableSelectionOnClick
-          getRowClassName={(params) =>
-            params.row.date === currentDate ? 'bg-yellow-100' : ''
-          }
-        />
+        <h1 className="text-2xl font-bold text-center mb-6">Data File</h1>
+        <div style={{ height: 800, width: '100%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            disableSelectionOnClick
+            getRowClassName={(params) =>
+              params.row.date === currentDate ? 'bg-yellow-100' : ''
+            }
+          />
+        </div>
       </div>
-    </div>
     </Paper>
   );
 }

@@ -16,7 +16,7 @@ export async function POST(request) {
     const buffer = Buffer.from(bytes);
 
     // Ensure the directory exists
-    const dir = path.join(process.cwd(), "public", "sheets");
+    const dir = path.join(__dirname, 'uploads', file.name);
     await fs.mkdir(dir, { recursive: true });
 
     // Write the file to the specified directory

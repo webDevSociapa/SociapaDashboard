@@ -61,18 +61,12 @@ export function CampaignNames() {
       if (!campaignName || campaignName === "Campaign name" || !date) {
         return;
       }
-  
-      // Initialize the campaign if it's the first occurrence
-      if (!campaignData[campaignName]) {
+        if (!campaignData[campaignName]) {
         campaignData[campaignName] = { name: campaignName, date, value: 0 };
       }
-  
-      // Accumulate the impressions for the same campaign
-      campaignData[campaignName].value += impressions;
+        campaignData[campaignName].value += impressions;
     });
-  
-    // Return the processed data as an array
-    return Object.values(campaignData);
+      return Object.values(campaignData);
   };
   
 
@@ -80,7 +74,7 @@ export function CampaignNames() {
   return (
     <div className="rounded-lg border bg-white p-4">
       <div className='flex flex-row justify-between'>
-        <h3 className="mb-4 text-lg font-medium">Campaign Names</h3>
+        <h3 className="mb-4 text-lg font-medium">Top Campaign Names</h3>
         <h3 className="mb-4 text-lg font-medium">Impression</h3>
       </div>
       <div className="space-y-2">

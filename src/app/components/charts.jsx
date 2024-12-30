@@ -2,13 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { format } from 'd3-format';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export function Charts() {
   const [chartData, setChartData] = useState([]);
   const [error, setError] = useState(null);
 
-
+  const formatYAxisTick = (value) => {
+    if (value >= 10000000) {
+      return `${(value / 1000000).toFixed(1)}M`; // For numbers in the millions, show 'M'
+    } else if (value >= 100000) {
+      return `${(value / 100000).toFixed(1)}L`; // For numbers in lakhs, show 'L'
+    }
+    return value;
+  };
 
   const processChartData = (data) => {
     console.log("data", data);
@@ -72,7 +80,7 @@ export function Charts() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Impressions</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
+            <LineChart data={chartData} >
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
                 dataKey="date"
@@ -80,8 +88,8 @@ export function Charts() {
                 interval={Math.ceil(chartData.length / 10)}
                 stroke="#6b7280"
               />
-              <YAxis stroke="#6b7280" />
-              <Tooltip
+          <YAxis tickFormatter={formatYAxisTick} stroke="#6b7280" />
+          <Tooltip
                 contentStyle={{
                   backgroundColor: '#ffffff',
                   border: '1px solid #e5e7eb',
@@ -102,7 +110,7 @@ export function Charts() {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white rounded-lg shadow-md ">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Clicks</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
