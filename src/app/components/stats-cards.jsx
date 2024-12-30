@@ -68,7 +68,7 @@ console.log("filteredData",filteredData);
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
-        <p>No data available for the selected date range.</p>
+        <p>Please select correct Date No data available for the selected date range.</p>
       </div>
     );
   }
