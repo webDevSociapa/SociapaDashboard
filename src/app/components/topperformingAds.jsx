@@ -34,17 +34,22 @@ export default function TopPerformingAds() {
         console.log("Raw data:", data);
     
         const agencyData = data.map((item) => {
-            // Check if the expected key exists, otherwise, fall back to another key
-            const campaignName = item["Ad Name report Dec-1-2024 to Dec-27-2024"] || item["Ad Name"] || "Unknown Campaign";
-            
+            // Dynamically find the key that contains "Ad Name"
+            const campaignKey = Object.keys(item).find((key) =>
+              key.includes("Ad Name report")
+            ) || "Ad Name"; // Fallback to "Ad Name" if no match found
+          
+            const campaignName = item[campaignKey] || "Unknown Campaign";
+          
             return {
-                campaignName: campaignName,
-                impression: parseInt(item["__EMPTY_4"] || 0),
-                ctr: parseFloat(item["__EMPTY_8"] || 0),
-                cpc: parseFloat(item["__EMPTY_7"] || 0),
-                clicks: parseInt(item["__EMPTY_6"] || 0),
+              campaignName: campaignName,
+              impression: parseInt(item["__EMPTY_4"] || 0),
+              ctr: parseFloat(item["__EMPTY_8"] || 0),
+              cpc: parseFloat(item["__EMPTY_7"] || 0),
+              clicks: parseInt(item["__EMPTY_6"] || 0),
             };
-        });
+          });
+          
     
         // Filter out invalid or NaN values
         const filteredData = agencyData?.filter(item =>

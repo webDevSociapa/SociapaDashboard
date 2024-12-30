@@ -36,34 +36,48 @@ export default function ChannelAnalysis() {
   const columns = [
     { field: 'id', headerName: 'SR', width: 90 },
     { field: 'date', headerName: 'Date', width: 150 },
-    { field: 'campaignName', headerName: 'Campaign Name', width: 180 },
-    { field: 'deliveryStatus', headerName: 'Delivery Status', width: 180 },
+    // { field: 'campaignName', headerName: 'Campaign Name', width: 180 },
+    // { field: 'deliveryStatus', headerName: 'Delivery Status', width: 180 },
     { field: 'deliveryLevel', headerName: 'Delivery Level', width: 180 },
     { field: 'reach', headerName: 'Reach', width: 120 },
     { field: 'frequency', headerName: 'Frequency', width: 120 },
     { field: 'impressions', headerName: 'Impressions', width: 180 },
     { field: 'amountSpent', headerName: 'Amount spent (INR)', width: 180 },
     { field: 'ctr', headerName: 'CTR (all)', width: 120 },
-    { field: 'resultType', headerName: 'Result Type', width: 180 },
-    { field: 'resultRate', headerName: 'Result rate', width: 150 },
-    { field: 'results', headerName: 'Results', width: 120 },
+    // { field: 'resultType', headerName: 'Result Type', width: 180 },
+    // { field: 'resultRate', headerName: 'Result rate', width: 150 },
+    // { field: 'results', headerName: 'Results', width: 120 },
   ];
 
-  const rows = statsData.map((item, index) => ({
-    id: index + 1,
-    date: item[""] || "N/A",
-    campaignName: item["Untitled report Dec-1-2024 to Dec-11-2024"] || "N/A",
-    deliveryStatus: item["Report Period: Dec 1, 2024 - Dec 11, 2024"] || "N/A",
-    deliveryLevel: item["__EMPTY_2"] || "N/A",
-    reach: item["__EMPTY_3"] || "N/A",
-    frequency: item["__EMPTY_4"] || "N/A",
-    impressions: item["__EMPTY_5"] || "N/A",
-    amountSpent: item["__EMPTY_7"] || "N/A",
-    ctr: item["__EMPTY_8"] || "N/A",
-    resultType: item["__EMPTY_9"] || "N/A",
-    resultRate: item["__EMPTY_10"] || "N/A",
-    results: item["__EMPTY_11"] || "N/A",
-  }));
+  const rows = statsData.map((item, index) => {
+    // Dynamically find the keys based on their patterns
+    const campaignNameKey = Object.keys(item).find((key) =>
+      key.startsWith("Date Wise report")
+    );
+    const deliveryStatusKey = Object.keys(item).find((key) =>
+      key.startsWith("Report Period:")
+    );
+
+    console.log("statsData",statsData);
+    
+  
+    return {
+      id: index + 1,
+      date: item[campaignNameKey] || "N/A", // Adjust key if necessary
+      campaignName: item[campaignNameKey] || "N/A", // Dynamically resolve the campaign name key
+      deliveryStatus: item[deliveryStatusKey] || "N/A", // Dynamically resolve the delivery status key
+      deliveryLevel: item["__EMPTY_2"] || "N/A",
+      reach: item["__EMPTY_3"] || "N/A",
+      frequency: item["__EMPTY_4"] || "N/A",
+      impressions: item["__EMPTY_5"] || "N/A",
+      amountSpent: item["__EMPTY_7"] || "N/A",
+      ctr: item["__EMPTY_8"] || "N/A",
+      resultType: item["__EMPTY_9"] || "N/A",
+      resultRate: item["__EMPTY_10"] || "N/A",
+      results: item["__EMPTY_11"] || "N/A",
+    };
+  });
+  
 
   return (
     <Paper sx={{mt:8}}>

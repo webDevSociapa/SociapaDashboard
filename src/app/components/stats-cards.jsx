@@ -41,10 +41,23 @@ export function StatsCards() {
   }
 
   // Filter data by date range
-  const filteredData = statsData.filter((item) => {
-    const date = item['Date Wise report Dec-1-2024 to Dec-27-2024'] || item['Date Wise report Dec-27-2024 to Dec-31-2024'];
-    return date >= startDate && date <= endDate;
-  });
+  // Filter data by dynamic date range
+const filteredData = statsData.filter((item) => {
+  // Dynamically find the key that contains "Date Wise report"
+  const dateKey = Object.keys(item).find((key) =>
+    key.includes("Date Wise report")
+  );
+
+
+  if (!dateKey) return false; // Skip if no date key is found
+
+  const date = item[dateKey];
+  return date >= startDate && date <= endDate;
+});
+console.log("filteredData",filteredData);
+  
+
+
 
   if (filteredData.length === 0) {
     return (

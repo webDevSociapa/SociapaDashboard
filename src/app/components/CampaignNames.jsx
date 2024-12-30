@@ -37,27 +37,40 @@ export function CampaignNames() {
   // Function to process campaign data from the API response
   const processCampaignData = (data) => {
     const campaignData = {};
-
+  
     // Iterate through each item in the dataset
-    data.forEach(item => {
-      const campaignName = item['Campaign Name report Dec-1-2024 to Dec-27-2024'];
-      const date = item['Report Period: Dec 1, 2024 - Dec 27, 2024']; // Using the correct date field
-      const impressions = parseInt(item['__EMPTY_4'] || 0); // Impressions data
-
-      // Skip invalid or header data (e.g., row with campaign name as a header)
-      if (!campaignName || campaignName === 'Campaign name' || !date) {
+    data.forEach((item) => {
+      // Dynamically find the key for the campaign name
+      const campaignNameKey = Object.keys(item).find((key) =>
+        key.includes("Campaign Name report")
+      );
+  
+      // Dynamically find the key for the date field
+      const dateKey = Object.keys(item).find((key) =>
+        key.includes("Report Period")
+      );
+  
+      // Retrieve campaign name and date using dynamic keys
+      const campaignName = item[campaignNameKey] || "Unknown Campaign";
+      const date = item[dateKey] || "";
+  
+      // Retrieve impressions data
+      const impressions = parseInt(item["__EMPTY_4"] || 0);
+  
+      // Skip invalid or header data (e.g., rows with campaign name as a header or missing date)
+      if (!campaignName || campaignName === "Campaign name" || !date) {
         return;
       }
-
+  
       // Initialize the campaign if it's the first occurrence
       if (!campaignData[campaignName]) {
         campaignData[campaignName] = { name: campaignName, date, value: 0 };
       }
-
+  
       // Accumulate the impressions for the same campaign
       campaignData[campaignName].value += impressions;
     });
-
+  
     // Return the processed data as an array
     return Object.values(campaignData);
   };

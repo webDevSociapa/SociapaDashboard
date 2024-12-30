@@ -11,18 +11,27 @@ export function Charts() {
 
 
   const processChartData = (data) => {
-    console.log("data",data);
-    
-    // Filter and map data
-    return data.map(item => ({
-      date: item["Date Wise report Dec-1-2024 to Dec-27-2024"] || '', // Adjust for correct key
-      impressions: parseInt(item.__EMPTY_4 || 0),
-      clicks: parseInt(item.__EMPTY_6 || 0),
-      cpc: parseFloat(item.__EMPTY_7 || 0),
-      ctr: parseFloat(item.__EMPTY_8 || 0),
-    })).filter(item => item.date) // Filter out items with empty dates
+    console.log("data", data);
+  
+    return data
+      .map((item) => {
+        // Dynamically find the key containing the date range
+        const dateKey = Object.keys(item).find((key) =>
+          key.includes("Date Wise report")
+        ) || '';
+  
+        return {
+          date: item[dateKey] || '', // Use the dynamically found date key
+          impressions: parseInt(item.__EMPTY_4 || 0),
+          clicks: parseInt(item.__EMPTY_6 || 0),
+          cpc: parseFloat(item.__EMPTY_7 || 0),
+          ctr: parseFloat(item.__EMPTY_8 || 0),
+        };
+      })
+      .filter((item) => item.date) // Filter out items with empty dates
       .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
   };
+  
   
   useEffect(() => {
     const fetchStatsData = async () => {
