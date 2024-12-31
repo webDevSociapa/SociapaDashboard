@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+
 // Mock user data for email-password validation
 const users = {
   "aalishan@gmail.com": {
