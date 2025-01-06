@@ -31,6 +31,8 @@ export function DemographicChart() {
           return;
         }
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+        console.log("response4441111",response);
+        
         setFbData(response.data);
         console.log('Fetched Facebook data:', response.data);
       } catch (error) {

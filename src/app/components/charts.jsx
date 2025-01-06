@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { format } from 'd3-format';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export function Charts() {
@@ -18,11 +17,8 @@ export function Charts() {
     return value;
   };
 
-  const processChartData = (data) => {
-    console.log("data", data);
-  
-    return data
-      .map((item) => {
+  const processChartData = (data) => {  
+    return data.map((item) => {
         // Dynamically find the key containing the date range
         const dateKey = Object.keys(item).find((key) =>
           key.includes("Date Wise report")
@@ -53,7 +49,6 @@ export function Charts() {
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
         const processedData = processChartData(response.data);
         setChartData(processedData);
-        console.log(response,"response");
         
         console.log('Processed chart data:', processedData);
       } catch (error) {

@@ -22,6 +22,15 @@ const users = {
     fileName4: "fbP",
     fileName5: "instaP",
   },
+  "9ads@gmail.com": {
+    brandName:"9ads",
+    password: "1234567",
+    fileName1: "9adsAdName",
+    fileName2: "9adsCampName",
+    fileName3: "9adsDwise",
+    fileName4: "9adsFbP",
+    fileName5: "9adsInstaP",
+  },
 };
 
 export async function POST(request) {
