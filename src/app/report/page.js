@@ -25,7 +25,6 @@ export default function ChannelAnalysis() {
             link.download = `${sheetName}.xlsx`; // Download as an Excel file
             link.click();
             window.URL.revokeObjectURL(url);
-
             setReportStatus("Report downloaded successfully!");
         } catch (error) {
             console.error("Error downloading report:", error);

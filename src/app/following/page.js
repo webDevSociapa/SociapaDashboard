@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
+import TopPerformingAds from "../components/topperformingAds";
+import TopPerformingCards from "../components/topPerforming";
 
 export default function FollowingPage() {
     const [following, setFollowing] = useState(null); // Use null to differentiate between no data and empty data
@@ -29,14 +31,8 @@ export default function FollowingPage() {
     }, [fetchStatsData]);
 
     return (
-        <div className="text-center" style={{marginTop:"100px",display:"block",background:"yellow"}}>
-            {error ? (
-                <p style={{ color: "red" }}>{error}</p>
-            ) : following ? (
-                <h1>Instagram followers:{following["Instagram followers"] || "No Instagram followers data available."}</h1>
-            ) : (
-                <p>Loading...</p>
-            )}
-        </div>
+      <div>
+        <TopPerformingCards/>
+      </div>
     );
 }

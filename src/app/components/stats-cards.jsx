@@ -39,7 +39,6 @@ export function StatsCards() {
   if (!statsData) {
     return <div>No data available</div>;
   }
-
   // Filter data by date range
   // Filter data by dynamic date range
   const filteredData = statsData.filter((item) => {
@@ -54,9 +53,6 @@ export function StatsCards() {
     const date = item[dateKey];
     return date >= startDate && date <= endDate;
   });
-  console.log("filteredData", filteredData);
-
-
 
 
   if (filteredData.length === 0) {

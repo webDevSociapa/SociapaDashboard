@@ -15,7 +15,8 @@ export async function GET(request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "public", "sheets", `${sheetName}.xlsx`);
+    // Read the file from the /tmp/sheets directory
+    const filePath = path.join("/tmp", "sheets", `${sheetName}.xlsx`);
 
     // Check if the file exists
     if (!fs.existsSync(filePath)) {

@@ -18,7 +18,7 @@ export function CampaignNames() {
 
         // Replace '/api/excelData' with your actual API endpoint
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        console.log("response.data", response.data);
+        console.log("response", response);
 
 
         if (response && response.data) {
@@ -37,38 +37,42 @@ export function CampaignNames() {
   // Function to process campaign data from the API response
   const processCampaignData = (data) => {
     const campaignData = {};
-  
+
     // Iterate through each item in the dataset
     data.forEach((item) => {
       // Dynamically find the key for the campaign name
+
+      const keywords = ["Campaign Name report", "Campaign Wise report"];
       const campaignNameKey = Object.keys(item).find((key) =>
-        key.includes("Campaign Name report")
+        keywords.some((keyword) => key.includes(keyword))
       );
-  
+
       // Dynamically find the key for the date field
       const dateKey = Object.keys(item).find((key) =>
         key.includes("Report Period")
       );
-  
+
+      const keywords11 = ["Campaign Name report", "Campaign Wise report"];
       // Retrieve campaign name and date using dynamic keys
       const campaignName = item[campaignNameKey] || "Unknown Campaign";
       const date = item[dateKey] || "";
-  
+
       // Retrieve impressions data
       const impressions = parseInt(item["__EMPTY_4"] || 0);
-  
+
       // Skip invalid or header data (e.g., rows with campaign name as a header or missing date)
       if (!campaignName || campaignName === "Campaign name" || !date) {
         return;
       }
-        if (!campaignData[campaignName]) {
+      if (!campaignData[campaignName]) {
         campaignData[campaignName] = { name: campaignName, date, value: 0 };
       }
-        campaignData[campaignName].value += impressions;
+      campaignData[campaignName].value += impressions;
     });
-      return Object.values(campaignData);
+
+    return Object.values(campaignData);
   };
-  
+
 
 
   return (
