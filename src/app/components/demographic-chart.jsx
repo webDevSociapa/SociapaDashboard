@@ -29,10 +29,8 @@ export function DemographicChart() {
         if (!sheetName) {
           console.error('Sheet name not found in localStorage');
           return;
-        }
-        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        console.log("response4441111",response);
-        
+        };
+        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);        
         setFbData(response.data);
         console.log('Fetched Facebook data:', response.data);
       } catch (error) {
