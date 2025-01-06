@@ -53,7 +53,7 @@ export function Charts() {
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
         const processedData = processChartData(response.data);
         setChartData(processedData);
-        console.log();
+        console.log(response,"response");
         
         console.log('Processed chart data:', processedData);
       } catch (error) {
@@ -61,7 +61,6 @@ export function Charts() {
         setError('Failed to fetch data. Please try again later.');
       }
     };
-
     fetchStatsData();
   }, []);  
 
