@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
+import { promises as fs } from "fs";
 import * as xlsx from "xlsx";
 import path from "path";
 
@@ -19,7 +19,9 @@ export async function GET(request) {
     const filePath = path.join("/tmp", "sheets", `${sheetName}.xlsx`);
 
     // Check if the file exists
-    if (!fs.existsSync(filePath)) {
+    try {
+      await fs.access(filePath);
+    } catch (err) {
       return NextResponse.json(
         { error: `File not found: ${sheetName}.xlsx` },
         { status: 404 }
@@ -27,7 +29,7 @@ export async function GET(request) {
     }
 
     // Read and parse the file
-    const fileBuffer = fs.readFileSync(filePath);
+    const fileBuffer = await fs.readFile(filePath);
     const workbook = xlsx.read(fileBuffer, { type: "buffer" });
 
     // Get data from the first sheet
@@ -48,7 +50,6 @@ export async function GET(request) {
       );
     }
 
-    
     return NextResponse.json(sheetData);
   } catch (error) {
     console.error("Error reading Excel file:", error);
