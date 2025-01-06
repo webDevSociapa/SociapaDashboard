@@ -33,7 +33,7 @@ const users = {
   },
   "Madhusudan@gmail.com": {
     brandName: "Madhusudan",
-    password: "1234567",
+    password: "Madhusudan",
     fileName1: "MadhusudanAdName",
     fileName2: "MadhusudanCampName",
     fileName3: "MadhusudanDwise",
