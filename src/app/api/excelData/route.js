@@ -15,8 +15,8 @@ export async function GET(request) {
       );
     }
 
-    // Read the file from the persistent shared directory
-    const filePath = path.join("/var/www/uploads", "sheets", `${sheetName}.xlsx`);
+    // Read the file from the /tmp/sheets directory
+    const filePath = path.join("/tmp", "sheets", `${sheetName}.xlsx`);
 
     // Check if the file exists
     try {
