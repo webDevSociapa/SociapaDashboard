@@ -15,8 +15,8 @@ export async function POST(request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Use '/tmp' as the base directory
-    const dir = path.join("/tmp", "sheets");
+    // Use a persistent directory for shared storage
+    const dir = path.join("/var/www/uploads", "sheets");
 
     // Ensure the directory exists
     await fs.mkdir(dir, { recursive: true });
