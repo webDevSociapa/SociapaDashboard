@@ -16,7 +16,7 @@ export async function POST(request) {
     const buffer = Buffer.from(bytes);
 
     // Ensure the shared directory exists
-    const dir = path.join(process.cwd(), 'public', 'uploads');
+    const dir = path.join('/tmp', 'uploads');
     await fs.mkdir(dir, { recursive: true });
 
     // Write the file to the shared directory
