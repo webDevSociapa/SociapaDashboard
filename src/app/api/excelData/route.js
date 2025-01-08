@@ -15,7 +15,7 @@ export async function GET(request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "public", "uploads", `${sheetName}.xlsx`);
+    const filePath = path.join('/tmp', 'uploads', `${sheetName}.xlsx`);
 
     // Check if the file exists
     try {
