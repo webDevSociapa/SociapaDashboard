@@ -8,8 +8,8 @@ export async function POST(request) {
     const file = formData.get("file");
     const sheetName = formData.get("sheetName");
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    if (!file || !sheetName) {
+      return NextResponse.json({ error: "Missing file or sheetName" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
