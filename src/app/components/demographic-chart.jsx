@@ -4,80 +4,48 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recha
 
 export function DemographicChart() {
   const [platform, setPlatform] = useState('Instagram');
-  const [fbData, setFbData] = useState(null);
-  const [instaData, setInstaData] = useState(null);
+  const [data, setData] = useState({ Instagram: null, Facebook: null });
 
   useEffect(() => {
-    const fetchStatsDataInsta = async () => {
+    const fetchData = async (sheetNameKey, platformKey) => {
       try {
-        const sheetName = localStorage.getItem('sheetName5');
+        const sheetName = localStorage.getItem(sheetNameKey);
         if (!sheetName) {
-          console.error('Sheet name not found in localStorage');
+          console.error(`${platformKey} sheet name not found in localStorage`);
           return;
         }
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        setInstaData(response.data);
-        console.log('Fetched Instagram data:', response.data);
+        setData((prev) => ({ ...prev, [platformKey]: response.data }));
+        console.log(`Fetched ${platformKey} data:`, response.data);
       } catch (error) {
-        console.error('Error fetching Instagram data:', error);
+        console.error(`Error fetching ${platformKey} data:`, error);
       }
     };
 
-    const fetchStatsDataFb = async () => {
-      try {
-        const sheetName = localStorage.getItem('sheetName4');
-        if (!sheetName) {
-          console.error('Sheet name not found in localStorage');
-          return;
-        };
-        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);        
-        setFbData(response.data);
-        console.log('Fetched Facebook data:', response.data);
-      } catch (error) {
-        console.error('Error fetching Facebook data:', error);
-      }
-    };
-
-    fetchStatsDataInsta();
-    fetchStatsDataFb();
+    fetchData('sheetName5', 'Instagram');
+    fetchData('sheetName4', 'Facebook');
   }, []);
 
-  // Helper function to process the gender data from both Instagram and Facebook data
   const processGenderData = (data) => {
     return data?.map((entry) => ({
-      name: entry["Instagram followers"] || entry["Facebook followers"],
-      women: parseFloat(entry["__EMPTY"]) || 0,
-      men: parseFloat(entry["__EMPTY_1"]) || 0
+      name: entry['Instagram followers'] || entry['Facebook followers'],
+      women: parseFloat(entry['__EMPTY']) || 0,
+      men: parseFloat(entry['__EMPTY_1']) || 0,
     }));
   };
 
-  const currentData = platform === 'Instagram' && instaData ? instaData : fbData;
-  
-  // Process the gender and age data from the API response
-  const genderData = currentData
-    ? processGenderData(currentData)
-    : [];
+  const currentData = data[platform];
+  const genderData = currentData ? processGenderData(currentData) : [];
 
-  // Calculate the total followers for the selected platform
-  const totalFollowers = platform === 'Instagram' && instaData 
-    ? instaData[1]["Instagram followers"]
-    : platform === 'Facebook' && fbData 
-    ? fbData[1]["Facebook followers"]
-    : 0;
+  const totalFollowers = currentData ? currentData[1][`${platform} followers`] : 0;
 
-  // Calculate the total percentage for women and men
   const totalWomen = genderData.reduce((acc, { women }) => acc + women, 0);
   const totalMen = genderData.reduce((acc, { men }) => acc + men, 0);
-
-  // Convert these values into percentages
   const total = totalWomen + totalMen;
-  const womenPercentage = (totalWomen / total) * 100;
-  const menPercentage = (totalMen / total) * 100;
 
-  // Pie chart data
   const genderPieData = [
-    { name: 'Women', value: womenPercentage },
-    { name: 'Men', value: menPercentage },
+    { name: 'Women', value: (totalWomen / total) * 100 },
+    { name: 'Men', value: (totalMen / total) * 100 },
   ];
 
   const COLORS = ['#8884d8', '#82ca9d'];
@@ -110,7 +78,7 @@ export function DemographicChart() {
             dataKey="value"
           >
             {genderPieData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length.toFixed(2)]} />
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Tooltip />
