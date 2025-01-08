@@ -15,13 +15,11 @@ export async function POST(request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Use '/tmp' as the base directory for serverless environments
-    const dir = path.join('/tmp', 'uploads', sheetName);
-
-    // Ensure the directory exists
+    // Ensure the shared directory exists
+    const dir = path.join(process.cwd(), 'public', 'uploads');
     await fs.mkdir(dir, { recursive: true });
 
-    // Write the file to the specified directory
+    // Write the file to the shared directory
     const filePath = path.join(dir, `${sheetName}.xlsx`);
     await fs.writeFile(filePath, buffer);
 

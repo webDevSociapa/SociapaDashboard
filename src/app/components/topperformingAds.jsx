@@ -17,6 +17,8 @@ export default function TopPerformingAds() {
                     return;
                 }
                 const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+                console.log("response", response);
+
                 const processedData = processChartData(response.data);
                 setTopAds(processedData);
                 console.log("topAds", topAds);
@@ -31,33 +33,31 @@ export default function TopPerformingAds() {
 
     const processChartData = (data) => {
         // Log the full data to inspect its structure
-        console.log("Raw data:", data);
-    
         const agencyData = data.map((item) => {
             // Dynamically find the key that contains "Ad Name"
-            const campaignKey = Object.keys(item).find((key) =>
-              key.includes("Ad Name report")
-            ) || "Ad Name"; // Fallback to "Ad Name" if no match found
-          
+            const keywords = ["Ad Name report", "Ad Name Wise report"];
+            const campaignKey =
+                Object.keys(item).find((key) =>
+                    keywords.some((keyword) => key.includes(keyword))
+                ) || "Ad Name";
             const campaignName = item[campaignKey] || "Unknown Campaign";
-          
             return {
-              campaignName: campaignName,
-              impression: parseInt(item["__EMPTY_4"] || 0),
-              ctr: parseFloat(item["__EMPTY_8"] || 0),
-              cpc: parseFloat(item["__EMPTY_7"] || 0),
-              clicks: parseInt(item["__EMPTY_6"] || 0),
+                campaignName: campaignName,
+                impression: parseInt(item["__EMPTY_4"] || 0),
+                ctr: parseFloat(item["__EMPTY_8"] || 0),
+                cpc: parseFloat(item["__EMPTY_7"] || 0),
+                clicks: parseInt(item["__EMPTY_6"] || 0),
             };
-          });
-          
-    
+        });
+
+
         // Filter out invalid or NaN values
         const filteredData = agencyData?.filter(item =>
             !isNaN(item?.impression) && item?.impression > 0 &&
             !isNaN(item?.ctr) && item?.ctr > 0 &&
             !isNaN(item?.cpc) && item?.cpc > 0
         );
-    
+
         // Sort data: by impressions (desc), then by ctr (desc), then by cpc (asc)
         const sortedData = filteredData.sort((a, b) => {
             if (b.impression !== a.impression) {
@@ -68,7 +68,7 @@ export default function TopPerformingAds() {
             }
             return a.cpc - b.cpc; // Sort by CPC (asc)
         });
-    
+
         // Return the top 5 ads
         return sortedData.slice(0, 5);
     };

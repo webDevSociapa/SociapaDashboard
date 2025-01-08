@@ -13,24 +13,28 @@ export function StatsCards() {
   useEffect(() => {
     const fetchStatsData = async () => {
       try {
-        const sheetName = localStorage.getItem('sheetName3');
-        if (!sheetName) {
-          console.error('Sheet name not found in localStorage');
+        const sheetName = localStorage.getItem("sheetName3");
+        const brandName = localStorage.getItem("brandName"); // Retrieve brandName
+  
+        if (!sheetName || !brandName) {
+          console.error("Sheet name or brand name not found in localStorage");
           return;
         }
-        const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+  
+        const response = await axios.get(`/api/excelData?sheetName=${sheetName}&brandName=${brandName}`);
         setStatsData(response.data);
         setLoading(false);
-        console.log('Fetched data:', response.data);
+        console.log("Fetched data:", response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
-
+  
     setLoading(true);
     fetchStatsData();
   }, []);
+  
 
   if (loading) {
     return <LoadingSpinner />;
@@ -39,7 +43,6 @@ export function StatsCards() {
   if (!statsData) {
     return <div>No data available</div>;
   }
-
   // Filter data by date range
   // Filter data by dynamic date range
   const filteredData = statsData.filter((item) => {
@@ -54,9 +57,6 @@ export function StatsCards() {
     const date = item[dateKey];
     return date >= startDate && date <= endDate;
   });
-  console.log("filteredData", filteredData);
-
-
 
 
   if (filteredData.length === 0) {

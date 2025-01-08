@@ -15,7 +15,7 @@ export async function GET(request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "public", "sheets", `${sheetName}.xlsx`);
+    const filePath = path.join(process.cwd(), "public", "uploads", `${sheetName}.xlsx`);
 
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
