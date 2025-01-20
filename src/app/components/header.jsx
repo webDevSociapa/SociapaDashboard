@@ -11,7 +11,6 @@ const [brandNameData,setBrandNameData] = useState("")
     setBrandNameData(BrandName)
   },[]) 
 
-
   return (
     <header className="flex h-16 items-center justify-between border-b bg-white px-4">
       <h1 className="text-xl font-semibold">{brandNameData}</h1>

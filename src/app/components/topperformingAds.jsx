@@ -19,8 +19,7 @@ export default function TopPerformingAds() {
                 const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
                 const processedData = processChartData(response.data);
                 setTopAds(processedData);
-                console.log("topAds", topAds);
-                console.log("Processed chart data:", processedData);
+                
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError("Failed to fetch data. Please try again later.");
