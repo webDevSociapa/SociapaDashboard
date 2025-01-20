@@ -17,8 +17,6 @@ export default function TopPerformingAds() {
                     return;
                 }
                 const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-                console.log("response", response);
-
                 const processedData = processChartData(response.data);
                 setTopAds(processedData);
                 console.log("topAds", topAds);
