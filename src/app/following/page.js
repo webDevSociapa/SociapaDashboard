@@ -46,11 +46,9 @@ const FbInstaData = () => {
   const fetchDataById = async (id) => {
 
     
-    const baseUrl = `https://graph.facebook.com/v21.0/${id}/insights`; // Use backticks for template literals  
-      
+    const baseUrl = `https://graph.facebook.com/v21.0/${id}/insights`; // Use backticks for template literals    
     const params = {
       access_token: accessToken, // Include the access token
-      fields: "impressions,engagement_rate,post_clicks,engagements", // Specify the metrics you want
     };
     try {
       const response = await axios.get(baseUrl, { params });
