@@ -101,12 +101,6 @@ export function StatsCards() {
     { title: 'Frequency', value: `${aggregatedFrequency}` },
   ];
 
-  useEffect(() =>{
-    console.log("stats", stats);
-    
-    
-  },[stats])  
-
   return (
     <div>
       <DateFilters

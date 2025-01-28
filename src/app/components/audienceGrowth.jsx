@@ -1,5 +1,6 @@
 "use client"
 import dayjs from "dayjs";
+import ProfileStatics from "./profileStatics";
 
 const AudienceGrowth = () => {
   return (

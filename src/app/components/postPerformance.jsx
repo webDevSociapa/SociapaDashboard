@@ -36,7 +36,7 @@ const PostPerformance = ({ mediaData }) => {
         };
 
         fetchLikesData();
-    }, [mediaData]);
+    }, []);
 
     return (
         <div className="border lg-rounded mt-10">

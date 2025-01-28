@@ -9,19 +9,19 @@ const InstaFollowersGraph = ({ followersData }) => {
     const followersLost = [-20, -60, -100, -80, +200, -300, -400, -350, -250, 500, 300]; // Example values
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
-            try {
-                const url = `https://graph.instagram.com/v21.0/insights?metric=follower_count&since=2024-01-01&until=2024-01-26&access_token=${accessToken}`;
-                const response = await axios.get(url);
-                console.log("Instagram Followers Data:", response);
-            } catch (error) {
-                console.log("Error fetching Instagram followers data:", error);
-            }
-        }
-        fetchData()
-    }, [])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
+    //         try {
+    //             const url = `https://graph.instagram.com/v21.0/insights?metric=follower_count&since=2024-01-01&until=2024-01-26&access_token=${accessToken}`;
+    //             const response = await axios.get(url);
+    //             console.log("Instagram Followers Data:", response);
+    //         } catch (error) {
+    //             console.log("Error fetching Instagram followers data:", error);
+    //         }
+    //     }
+    //     fetchData()
+    // }, [])
 
     return (
         <>
