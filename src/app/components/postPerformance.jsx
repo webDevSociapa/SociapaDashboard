@@ -36,7 +36,7 @@ const PostPerformance = ({ mediaData }) => {
         };
 
         fetchLikesData();
-    }, []);
+    }, [mediaData]);
 
     return (
         <div className="border lg-rounded mt-10">
@@ -78,7 +78,7 @@ const PostPerformance = ({ mediaData }) => {
 
                         {/* Engagement Metrics */}
                         <div className="px-4 py-3 border-t">
-                            <p className="font-semibold text-gray-800">Total Engagements {post.like_count}</p>
+                            <p className="font-semibold text-gray-800">Total Engagements :  {post.like_count}</p>
                             <ul className="text-sm text-gray-600">
                                 <li className="flex justify-between py-1">
                                     <span>Likes</span> <span className="font-medium">{post.like_count}</span>
