@@ -7,6 +7,4 @@ const TopPerformingCards = () =>{
         </>
     )
 }
-
-
 export default TopPerformingCards

@@ -28,11 +28,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from 'next/image';
 import Logo from '../../../public/img/SociapaLogo.png';
-import { StatsCards } from './stats-cards';
-import { Charts } from './charts';
-import { CampaignNames } from './CampaignNames';
-import { DemographicChart } from './demographic-chart';
-import TopPerformingAds from './topperformingAds';
+// import { StatsCards } from './stats-cards';
+// import { Charts } from './charts';
+// import { CampaignNames } from './CampaignNames';
+// import { DemographicChart } from './demographic-chart';
+// import TopPerformingAds from './topperformingAds';
 import Link from 'next/link';
 
 const drawerWidth = 240;
@@ -80,6 +80,7 @@ const navigation = [
   { name: 'Dashboard', href: '/', icon: <DashboardIcon /> },
   { name: 'Data File', href: '/dataFile', icon: <EqualizerIcon /> },
   { name: 'Report', href: '/report', icon: <AssessmentIcon /> },
+  { name: 'Instagram Bussiness Profile', href: '/instaAudience', icon: <AssessmentIcon /> },
 ];
 
 export default function SidebarDrawer() {
@@ -95,7 +96,7 @@ export default function SidebarDrawer() {
     localStorage.removeItem('isLoggedIn');
     router.push('/login');
   };
-    const handleProfile = () => router.push('/');
+  const handleProfile = () => router.push('/');
 
 
   React.useEffect(() => {
@@ -157,18 +158,18 @@ export default function SidebarDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-  {navigation.map(({ name, href, icon }) => (
-    <ListItem key={href} disablePadding>
-      {/* Use Link component to wrap the ListItemButton */}
-      <Link href={href} passHref>
-        <ListItemButton>
-          <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText primary={name} />
-        </ListItemButton>
-      </Link>
-    </ListItem>
-  ))}
-</List>
+          {navigation.map(({ name, href, icon }) => (
+            <ListItem key={href} disablePadding>
+              {/* Use Link component to wrap the ListItemButton */}
+              <Link href={href} passHref>
+                <ListItemButton>
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={name} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
+        </List>
       </Drawer>
     </Box>
   );

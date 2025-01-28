@@ -1,81 +1,7 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+"use client"
 import dayjs from "dayjs";
-import ProfileStatics from "../components/profileStatics";
 
-const FbInstaData = () => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  
-  const [dataById,setDataById] = useState([]);
-  const [selectedMetrics, setSelectedMetrics] = useState([]);
-  const [dateRange, setDateRange] = useState({
-    start: "2024-11-01",
-    end: "2024-12-25",
-  });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-
-  const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const baseUrl = "https://graph.facebook.com/v21.0/me/adaccounts";
-      const params = {
-        fields: "name",
-        access_token: accessToken
-      }
-      try {
-        const response = await axios.get(
-          baseUrl, { params }
-        );
-        console.log("response222", response);
-        setData(response.data.data || []); // Adjust based on actual API response structure
-      } catch (err) {
-        setError("Failed to fetch data. Please check your credentials.");
-      }
-    };
-
-  fetchData();
-  }, []);
-
-  const fetchDataById = async (id) => {
-    const baseUrl = `https://graph.facebook.com/v21.0/${id}/insights`; // Use backticks for template literals    
-    const params = {
-      access_token: accessToken, // Include the access token
-      
-    };
-    try {
-      const response = await axios.get(baseUrl, { params });
-      setDataById(response.data.data || []); // Adjust based on actual API response structure
-    } catch (err) {
-      console.error("Error fetching data:", err);
-      setError("Failed to fetch data. Please check your credentials.");
-    }
-  };
-
-  //fields: "impressions,engagement_rate,post_clicks,engagements", // Specify the metrics you want
-
-  
-
-  const handleMetricChange = (metric) => {
-    setSelectedMetrics((prev) => {
-      const isSelected = prev.some((item) => item.id === metric.id);
-      return isSelected
-        ? prev.filter((item) => item.id !== metric.id) // Remove if already selected
-        : [...prev, metric]; // Add if not selected
-    });
-  };
-
-  const handleDateChange = (type, value) => {
-    setDateRange((prev) => ({
-      ...prev,
-      [type]: value,
-    }));
-  };
-
+const AudienceGrowth = () => {
   return (
     <>
       <div className="bg-gray-100 p-6 mt-10 border border-gray-300 rounded-lg">
@@ -118,10 +44,10 @@ const FbInstaData = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white text-gray-700 focus:outline-none"
           >
             <span>
-          {selectedMetrics.length > 0
-            ? selectedMetrics.map((metric) => metric.name).join(", ")
-            : "Select Metrics"}
-        </span>
+              {selectedMetrics.length > 0
+                ? selectedMetrics.map((metric) => metric.name).join(", ")
+                : "Select Metrics"}
+            </span>
             <svg
               className={`w-5 h-5 transform ${isDropdownOpen ? "rotate-180" : "rotate-0"
                 }`}
@@ -179,7 +105,7 @@ const FbInstaData = () => {
       </div>
       <ProfileStatics dataById={dataById} />
     </>
-  );
-};
+  )
+}
 
-export default FbInstaData;
+export default AudienceGrowth

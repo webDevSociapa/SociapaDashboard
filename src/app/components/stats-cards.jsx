@@ -15,12 +15,11 @@ export function StatsCards() {
       try {
         const sheetName = localStorage.getItem("sheetName3");
         const brandName = localStorage.getItem("brandName"); // Retrieve brandName
-  
+
         if (!sheetName || !brandName) {
           console.error("Sheet name or brand name not found in localStorage");
           return;
         }
-  
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}&brandName=${brandName}`);
         setStatsData(response.data);
         setLoading(false);
@@ -30,11 +29,10 @@ export function StatsCards() {
         setLoading(false);
       }
     };
-  
     setLoading(true);
     fetchStatsData();
   }, []);
-  
+
 
   if (loading) {
     return <LoadingSpinner />;
@@ -50,15 +48,11 @@ export function StatsCards() {
     const dateKey = Object.keys(item).find((key) =>
       key.includes("Date Wise report")
     );
-
-
     if (!dateKey) return false; // Skip if no date key is found
 
     const date = item[dateKey];
     return date >= startDate && date <= endDate;
   });
-
-
   if (filteredData.length === 0) {
     return (
       <div>
@@ -104,8 +98,14 @@ export function StatsCards() {
     { title: 'Impressions', value: aggregatedMetrics.impressions },
     { title: 'Clicks', value: aggregatedMetrics.clicks },
     { title: 'Amount Spent', value: `${aggregatedMetrics.amountSpent.toFixed(2)} INR` },
-    { title: 'Frequency', value: `${aggregatedFrequency}`}, 
+    { title: 'Frequency', value: `${aggregatedFrequency}` },
   ];
+
+  useEffect(() =>{
+    console.log("stats", stats);
+    
+    
+  },[stats])  
 
   return (
     <div>
