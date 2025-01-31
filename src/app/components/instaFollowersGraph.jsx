@@ -1,43 +1,68 @@
+"use client";
+
 import { LineChart } from "@mui/x-charts/LineChart";
-import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const InstaFollowersGraph = ({ followersData }) => {
-    // Sample Data (Replace with real data)
-    const xAxisData = ["Nov 3", "Nov 6", "Nov 9", "Nov 12", "Nov 15", "Nov 18", "Nov 21", "Nov 24", "Nov 27", "Dec 3", "Jan 2"];
-    const followersGained = [50, 120, 180, -200, 300, 450, 600, 900, 400, 700, 500]; // Example values
-    const followersLost = [-20, -60, -100, -80, +200, -300, -400, -350, -250, 500, 300]; // Example values
+const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
+    const [followersGained, setFollowersGained] = useState([]);
+    const [followersLost, setFollowersLost] = useState([]);
+    const [xAxisData, setXAxisData] = useState([]);
+    const [growthPercentage, setGrowthPercentage] = useState(0);
+
+    useEffect(() => {
+        if (dateWiseFollowers && dateWiseFollowers.length > 0) {
+            const gained = [];
+            const lost = [];
+            const dates = [];
+
+            // Loop through the data to calculate gained and lost followers
+            for (let i = 0; i < dateWiseFollowers.length; i++) {
+                const currentData = dateWiseFollowers[i];
+                const previousData = i > 0 ? dateWiseFollowers[i - 1] : null;
 
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
-    //         try {
-    //             const url = `https://graph.instagram.com/v21.0/insights?metric=follower_count&since=2024-01-01&until=2024-01-26&access_token=${accessToken}`;
-    //             const response = await axios.get(url);
-    //             console.log("Instagram Followers Data:", response);
-    //         } catch (error) {
-    //             console.log("Error fetching Instagram followers data:", error);
-    //         }
-    //     }
-    //     fetchData()
-    // }, [])
+
+                // Format the date for x-axis (use the `end_time` as the date)
+                const date = new Date(currentData.end_time).toLocaleDateString();
+                dates.push(date);
+                console.log("date", date);
+
+
+                if (previousData) {
+                    const gainedValue = currentData.value - previousData.value;
+                    gained.push(gainedValue > 0 ? gainedValue : 0); // followers gained
+                    lost.push(gainedValue < 0 ? Math.abs(gainedValue) : 0); // followers lost
+                } else {
+                    gained.push(0); // No change for the first data point
+                    lost.push(0);
+                }
+            }
+
+            setXAxisData(dates);
+            setFollowersGained(gained);
+            setFollowersLost(lost);
+
+            // Calculate the growth percentage based on the first and last data points
+            const startFollowers = dateWiseFollowers[0].value;
+            const endFollowers = dateWiseFollowers[dateWiseFollowers.length - 1].value;
+            const growth = ((endFollowers - startFollowers) / startFollowers) * 100;
+            setGrowthPercentage(growth.toFixed(2));
+        }
+    }, [dateWiseFollowers]);
 
     return (
         <>
-            <div className="insta-followers-graph">
-                <h3>Instagram Audience Growth</h3>
+            <div className="insta-followers-graph mt-10">
                 <LineChart
                     xAxis={[{ scaleType: "point", data: xAxisData }]}
                     series={[
-                        { data: followersGained, label: "Followers Gained", color: "#1abc9c" }, // Green color
-                        { data: followersLost, label: "Followers Lost", color: "#8e44ad" }, // Purple color
+                        { data: followersGained, label: "Followers Gained", color: "#1abc9c" },
+                        { data: followersLost, label: "Followers Lost", color: "#8e44ad" },
                     ]}
-                    width={1200}
                     height={400}
                 />
             </div>
-            <div className="border rounded-lg p-4 w-full  bg-white shadow-md">
+            <div className="border rounded-lg p-4 w-full  bg-white shadow-md ">
                 <h3 className="text-gray-600 font-semibold text-sm border-b pb-2">
                     Audience Metrics
                 </h3>
@@ -45,40 +70,32 @@ const InstaFollowersGraph = ({ followersData }) => {
                 <div className="py-2">
                     <div className="flex justify-between font-semibold text-gray-800">
                         <span>Followers</span>
-                        <span className="text-lg">24,393</span>
+                        <span className="text-lg">{totalFollowers ? totalFollowers : "N/A"}</span>
                     </div>
                     <div className="text-green-600 text-sm font-medium flex justify-end">
-                        ↑ 189.9%
-                    </div>
-                </div>
-
-                <div className="py-2">
-                    <div className="flex justify-between font-semibold text-gray-800">
-                        <span>Net Follower Growth</span>
-                        <span className="text-lg">16,304</span>
-                    </div>
-                    <div className="text-green-600 text-sm font-medium flex justify-end">
-                        ↑ 4,294.6%
+                        {growthPercentage && totalFollowers
+                            ? `↑ ${growthPercentage}%`
+                            : "N/A"}
                     </div>
                 </div>
 
                 <div className="py-2 border-t">
                     <div className="flex justify-between text-blue-600 font-medium">
                         <span>Followers Gained</span>
-                        <span>20,171</span>
+                        <span>{followersGained.reduce((acc, val) => acc + val, 0)}</span>
                     </div>
                     <div className="text-green-600 text-sm font-medium flex justify-end">
-                        ↑ 4,505.3%
+                        ↑ {growthPercentage}% {/* Or you can dynamically update if needed */}
                     </div>
                 </div>
 
                 <div className="py-2 border-t">
                     <div className="flex justify-between text-blue-600 font-medium">
                         <span>Followers Lost</span>
-                        <span>3,867</span>
+                        <span>{followersLost.reduce((acc, val) => acc + val, 0)}</span>
                     </div>
                     <div className="text-green-600 text-sm font-medium flex justify-end">
-                        ↑ 5,671.6%
+                        ↑ {growthPercentage}% {/* Or you can dynamically update if needed */}
                     </div>
                 </div>
             </div>

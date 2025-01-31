@@ -10,7 +10,7 @@ const PostPerformance = ({ mediaData }) => {
             try {
                 // Fetch like count for all media IDs
                 const mediaDetails = await Promise.all(
-                    mediaData.media.data.map(async (media) => {
+                    mediaData?.media?.data?.map(async (media) => {
                         const response = await axios.get(
                             `https://graph.facebook.com/v21.0/${media.id}`,
                             {
@@ -20,8 +20,6 @@ const PostPerformance = ({ mediaData }) => {
                                 },
                             }
                         );
-                        console.log("response", response);
-
                         return response.data;
                     })
                 );
@@ -40,7 +38,7 @@ const PostPerformance = ({ mediaData }) => {
 
     return (
         <div className="border lg-rounded mt-10">
-            <h3 className="text-left px-2 font-semibold mx-4">Post Performance</h3>
+            <h3 className="text-left px-2 font-semibold mx-4 mt-4">Post Performance</h3>
             <p className="text-left px-2 pb-4 mx-4">Review how your audience interacted with your posts.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2">
@@ -61,7 +59,7 @@ const PostPerformance = ({ mediaData }) => {
 
                         {/* Post Content */}
                         <div className="px-4 py-2">
-                            <p className="text-sm text-gray-700">
+                            <p className="text-sm text-gray-700 truncate">
                                 {post.caption || "No caption provided"}
                             </p>
                         </div>
@@ -69,7 +67,7 @@ const PostPerformance = ({ mediaData }) => {
                         {/* Image Section */}
                         <div className="px-4">
                             <img
-                                className="w-full rounded-lg"
+                                className="w-full rounded-lg h-48 object-cover "
                                 src={post.thumbnail_url}
                                 alt="Post"
                             />
@@ -78,7 +76,7 @@ const PostPerformance = ({ mediaData }) => {
 
                         {/* Engagement Metrics */}
                         <div className="px-4 py-3 border-t">
-                            <p className="font-semibold text-gray-800">Total Engagements :  {post.like_count}</p>
+                            {/* <p className="font-semibold text-gray-800">Total Engagements : {post.like_count}</p> */}
                             <ul className="text-sm text-gray-600">
                                 <li className="flex justify-between py-1">
                                     <span>Likes</span> <span className="font-medium">{post.like_count}</span>

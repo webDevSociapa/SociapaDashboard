@@ -7,6 +7,7 @@ import ProfileStatics from "../components/profileStatics";
 import axios from "axios";
 import InstaFollowersGraph from "../components/instaFollowersGraph";
 import PostPerformance from "../components/postPerformance";
+import StoryPerformance from "../components/storyPerformance";
 
 const InstaAudience = () => {
 
@@ -18,11 +19,12 @@ const InstaAudience = () => {
     const [instaBusiness, setInstaBusiness] = useState()
     const [totalFollowers, setTotalFollowers] = useState()
     const [mediaData, setMediaData] = useState()
+    const [dateWiseFollowers,setDateWiseFollowers] = useState()
+    const [storiesData, setStoriesData] = useState();
+    const [startDate, setStartDate] = useState(dayjs().subtract(30, 'days').format('YYYY-MM-DD'));
+    const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
     const [selectedMetrics, setSelectedMetrics] = useState([]);
-    const [dateRange, setDateRange] = useState({
-        start: "2024-11-01",
-        end: "2024-12-25",
-    });
+   
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
 
@@ -47,6 +49,8 @@ const InstaAudience = () => {
         fetchData();
     }, []);
 
+    console.log("startDate", startDate);
+    
 
 
     const handleMetricChange = (metric) => {
@@ -118,12 +122,15 @@ const InstaAudience = () => {
     const fetchInstagramFollowers = async (instaBusinessId) => {
         const url = `https://graph.facebook.com/v21.0/${instaBusinessId}`;
         const params = {
-            fields: "followers_count,media_count,media,profile_picture_url",
+            fields: "followers_count,media_count,media,profile_picture_url,stories",
             access_token: accessToken,
         };
         try {
             const response = await axios.get(url, { params });
+            console.log("Instagram Followers Count:", response);
+            
             setTotalFollowers(response?.data?.followers_count)
+            setStoriesData(response.data)
             console.log("Instagram Followers Count:", response);
             setMediaData(response?.data);
             console.log("media data", response?.data?.media);
@@ -133,15 +140,35 @@ const InstaAudience = () => {
     };
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const accessToken = "EAAZAzDEZADHB8BOZBbngMYYSLUIDYIIBVlOFgFnZBEjtUCAnWoD38FiarHQggXfuZBUV31O39b3HPZALJolEeRYyDmyDrxWpLcZBYHLZAtVkZBIyA4RXojqVZCyLDUtk0iKIgeJJyuILKzfkBxlSjETwHL4MPa2lhqLyZCPQgZBcmZAaCtFvIGQOMMlZAqZADBhk5DQzKwNPY5dRYrfCq6ra3UxticHV8yo77kWeV9PvD6C1ZCGilH2ESvuJCVMq"; // Replace with your access token
+            try {
+                const url = `https://graph.facebook.com/v21.0/17841464559421526/insights?metric=follower_count&period=day&since=${startDate}&until=${endDate}&access_token=${accessToken}`;
+                console.log("url", url);
+                
+                const response = await axios.get(url);
+                setDateWiseFollowers(response.data.data[0].values);
+                console.log("Instagram Followers Data:", response);
+            } catch (error) {
+                console.log("Error fetching Instagram followers data:", error);
+            }
+        };
+
+        fetchData();
+    }, [startDate, endDate]);
+
+
     const handleDateChange = (type, value) => {
         setDateRange((prev) => ({
             ...prev,
             [type]: value,
         }));
     };
+    
 
     return (
-        <div style={{ marginTop: '100px', textAlign: 'center' }}>
+        <div style={{ marginTop: '100px', textAlign: 'center',margin:"20px 60px" }}>
             <h1>Instagram Business Profile</h1>
             <div className="bg-gray-100 p-6 mt-10 border border-gray-300 rounded-lg">
                 {/* Header Section */}
@@ -154,19 +181,19 @@ const InstaAudience = () => {
                     <div className="flex items-center gap-4">
                         {/* Date Range Picker */}
                         <div className="flex gap-2">
-                            <input
-                                type="date"
-                                value={dateRange.start}
-                                onChange={(e) => handleDateChange("start", e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                            <input
-                                type="date"
-                                value={dateRange.end}
-                                onChange={(e) => handleDateChange("end", e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
+            <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}  // Correct way to update startDate
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}  // Correct way to update endDate
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+        </div>
                         {/* Share Button */}
                         <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
                             Share
@@ -186,7 +213,7 @@ const InstaAudience = () => {
                                 ? selectedMetrics.map((metric) => metric.name).join(", ")
                                 : "Select Profile"}
                         </span>
-                        <svg class="h-8 w-8 text-red-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="4" y="4" width="16" height="16" rx="4" />  <circle cx="12" cy="12" r="3" />  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" /></svg>
+                        <svg className="h-8 w-8 text-red-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="4" y="4" width="16" height="16" rx="4" />  <circle cx="12" cy="12" r="3" />  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" /></svg>
                     </button>
                     {isDropdownOpen && (
                         <div className="absolute mt-2 w-full border border-gray-300 rounded-md bg-white shadow-md z-10" >
@@ -196,7 +223,7 @@ const InstaAudience = () => {
                                     onClick={() => fetchDataByInstagramId(metric.id)}
                                     className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 cursor-pointer"
                                 >
-                                    <svg class="h-8 w-8 text-red-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="4" y="4" width="16" height="16" rx="4" />  <circle cx="12" cy="12" r="3" />  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" /></svg>
+                                    <svg className="h-8 w-8 text-red-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <rect x="4" y="4" width="16" height="16" rx="4" />  <circle cx="12" cy="12" r="3" />  <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" /></svg>
                                     <input
                                         type="checkbox"
                                         checked={selectedMetrics.some((item) => item.id === metric.id)}
@@ -215,8 +242,9 @@ const InstaAudience = () => {
 
             </div>
             <ProfileStatics dataById={dataById} />
-            <InstaFollowersGraph totalFollowers={totalFollowers} />
+            <InstaFollowersGraph totalFollowers={totalFollowers} dateWiseFollowers={dateWiseFollowers} />
             <PostPerformance mediaData={mediaData} />
+            <StoryPerformance storiesData={storiesData}/>
         </div>
     )
 }

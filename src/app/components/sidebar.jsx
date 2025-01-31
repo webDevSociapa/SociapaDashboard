@@ -92,10 +92,12 @@ export default function SidebarDrawer() {
 
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
+
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     router.push('/login');
   };
+
   const handleProfile = () => router.push('/');
 
 
@@ -106,6 +108,13 @@ export default function SidebarDrawer() {
       setBrandName(storedBrandName);
     }
   }, []);
+
+  // useEffect(() =>{
+  //   const fetchData = async() => {
+  //     const response = await fetch('http://localhost:3000/api/brandName');
+  //   }
+  //   fetchData()
+  // })
 
   return (
     <Box sx={{ display: 'flex' }}>

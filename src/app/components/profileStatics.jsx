@@ -42,8 +42,9 @@ const ProfileStatics = ({ dataById }) => {
     { title: 'Engagement Rate (per Impression)', value: '74,900,354', tooltip: '4323%' },
   ];
 
+
   return (
-    <div className="border h-auto mt-10 mx-4 lg:mx-10 p-4">
+    <div className="border h-auto mt-10 ">
       {/* Header Section */}
       <div className="border-b pb-4">
         <h3 className="font-bold text-lg">Performance Summary</h3>
