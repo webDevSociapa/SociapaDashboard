@@ -8,13 +8,11 @@ const StoryPerformance = ({ storiesData }) => {
     const followersGained = [50, 120, 180, -200, 300, 450, 600, 900, 400, 700, 500]; // Example values
     const followersLost = [-20, -60, -100, -80, 200, -300, -400, -350, -250, 500, 300]; // Example values
 
-    console.log("topStories Data:", topStories);
-
-
-    const accessToken = "EAAZAzDEZADHB8BO2SpQuC2Bz0XdxorV1ovuUMK7GPZA4RC3cKE6ZC6Ps2jt6GD8j4mZBJxExfhex71sFwwrivnIvPeftsTGuBjolq7JdSx4xD5A0aiYZB6fJcf20s8gfK7nPRZCZCmctU1zZAFkBpQdq4QcEaR9Uq63sXCudbMW1RhYoEZApXJp7SmSQkCoQwg2VJnw8gDv9hGAnMdwH4jTcHelgK54mkF0SyFGB8lGzFYPG7RmojMZABBnCoGimJP54PgZD"; 
+    const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
     useEffect(() => {
         const fetchLikesData = async () => {
             try {
+                
                 const mediaDetails = await Promise.all(
                     storiesData?.stories?.data?.map(async (story) => {
                         const response = await axios.get(

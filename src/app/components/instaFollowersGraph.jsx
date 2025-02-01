@@ -18,7 +18,11 @@ const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
             // Loop through the data to calculate gained and lost followers
             for (let i = 0; i < dateWiseFollowers.length; i++) {
                 const currentData = dateWiseFollowers[i];
+                console.log("currentData", currentData);
+                
                 const previousData = i > 0 ? dateWiseFollowers[i - 1] : null;
+                console.log("previousData", previousData);
+                
 
 
 

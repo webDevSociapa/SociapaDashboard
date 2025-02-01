@@ -1,32 +1,32 @@
 "use client"
-
 import { useEffect, useState } from "react"
 import dayjs from "dayjs";
-import AudienceGrowth from "../components/audienceGrowth"
 import ProfileStatics from "../components/profileStatics";
 import axios from "axios";
 import InstaFollowersGraph from "../components/instaFollowersGraph";
 import PostPerformance from "../components/postPerformance";
 import StoryPerformance from "../components/storyPerformance";
+import InstaImpressions from "../components/instaImpressions";
+import EngagementInsta from "../components/engagementsInsta";
+import { ToastContainer, toast } from 'react-toastify';
 
 const InstaAudience = () => {
-
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
-
     const [dataById, setDataById] = useState([]);
     const [instaById, setInstaById] = useState();
     const [instaBusiness, setInstaBusiness] = useState()
-    const [totalFollowers, setTotalFollowers] = useState()
+    const [totalFollowers, setTotalFollowers] = useState();
+    const [totalImpressions, setTotalImpressions] = useState();
     const [mediaData, setMediaData] = useState()
-    const [dateWiseFollowers,setDateWiseFollowers] = useState()
+    const [dateWiseFollowers, setDateWiseFollowers] = useState()
     const [storiesData, setStoriesData] = useState();
     const [startDate, setStartDate] = useState(dayjs().subtract(30, 'days').format('YYYY-MM-DD'));
     const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
     const [selectedMetrics, setSelectedMetrics] = useState([]);
-   
+    const [showToast, setShowToast] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
+    const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
 
 
     useEffect(() => {
@@ -49,9 +49,6 @@ const InstaAudience = () => {
         fetchData();
     }, []);
 
-    console.log("startDate", startDate);
-    
-
 
     const handleMetricChange = (metric) => {
         setSelectedMetrics((prev) => {
@@ -60,12 +57,20 @@ const InstaAudience = () => {
                 ? prev.filter((item) => item.id !== metric.id) // Remove if already selected
                 : [...prev, metric]; // Add if not selected
         });
+
+        localStorage.setItem("selectedMetrics", JSON.stringify(selectedMetrics));
     };
 
+    // const handleMetricChange = (metric) => {
+    //   setSelectedMetrics.push(metric);
+    //   console.log("selectedMetrics", selectedMetrics);
 
+
+    // }
 
     // Refactored function to fetch data by Instagram ID
     const fetchDataByInstagramId = async (id) => {
+
         try {
             const businessId = await getBusinessId(id);
             if (businessId) {
@@ -87,7 +92,6 @@ const InstaAudience = () => {
             fields: "business",
             access_token: accessToken,
         };
-
         try {
             const response = await axios.get(url, { params });
             const businessId = response?.data?.business?.id || null;
@@ -110,6 +114,8 @@ const InstaAudience = () => {
         try {
             const response = await axios.get(url, { params });
             const instaBusinessId = response?.data?.instagram_business_accounts?.data?.[0]?.id || null;
+            console.log("Instagram Business ID:", instaBusinessId);
+
             setInstaBusiness(instaBusinessId);
             return instaBusinessId;
         } catch (error) {
@@ -128,7 +134,7 @@ const InstaAudience = () => {
         try {
             const response = await axios.get(url, { params });
             console.log("Instagram Followers Count:", response);
-            
+
             setTotalFollowers(response?.data?.followers_count)
             setStoriesData(response.data)
             console.log("Instagram Followers Count:", response);
@@ -139,36 +145,41 @@ const InstaAudience = () => {
         }
     };
 
-
     useEffect(() => {
-        const fetchData = async () => {
-            const accessToken = "EAAZAzDEZADHB8BOZBbngMYYSLUIDYIIBVlOFgFnZBEjtUCAnWoD38FiarHQggXfuZBUV31O39b3HPZALJolEeRYyDmyDrxWpLcZBYHLZAtVkZBIyA4RXojqVZCyLDUtk0iKIgeJJyuILKzfkBxlSjETwHL4MPa2lhqLyZCPQgZBcmZAaCtFvIGQOMMlZAqZADBhk5DQzKwNPY5dRYrfCq6ra3UxticHV8yo77kWeV9PvD6C1ZCGilH2ESvuJCVMq"; // Replace with your access token
+        const fetchData = async (instaBusinessId) => {
+            console.log("fetching data", instaBusinessId);
+
+            const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
             try {
-                const url = `https://graph.facebook.com/v21.0/17841464559421526/insights?metric=follower_count&period=day&since=${startDate}&until=${endDate}&access_token=${accessToken}`;
-                console.log("url", url);
-                
+                const url = `https://graph.facebook.com/v21.0/${instaBusiness}/insights?metric=impressions,follower_count&period=day&since=${startDate}&until=${endDate}&access_token=${accessToken}`;
                 const response = await axios.get(url);
-                setDateWiseFollowers(response.data.data[0].values);
-                console.log("Instagram Followers Data:", response);
+
+
+                setDateWiseFollowers(response.data.data[1].values);
+                setTotalImpressions(response.data.data[0].values);
             } catch (error) {
                 console.log("Error fetching Instagram followers data:", error);
             }
         };
-
         fetchData();
     }, [startDate, endDate]);
 
 
-    const handleDateChange = (type, value) => {
-        setDateRange((prev) => ({
-            ...prev,
-            [type]: value,
-        }));
-    };
-    
+    useEffect(() => {
+        const savedMetrics = JSON.parse(localStorage.getItem("selectedMetrics")) || [];
+        selectedMetrics.length === 0 && setSelectedMetrics(savedMetrics);
+    }, [])
+
+    useEffect(() => {
+        if (selectedMetrics.length === 0) {
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000); // Toast disappears after 3 seconds
+        }
+    }, [selectedMetrics]);
+
 
     return (
-        <div style={{ marginTop: '100px', textAlign: 'center',margin:"20px 60px" }}>
+        <div style={{ marginTop: '100px', textAlign: 'center', margin: "20px 60px" }}>
             <h1>Instagram Business Profile</h1>
             <div className="bg-gray-100 p-6 mt-10 border border-gray-300 rounded-lg">
                 {/* Header Section */}
@@ -177,23 +188,21 @@ const InstaAudience = () => {
                         <h1 className="text-lg font-semibold text-gray-800">Profile Performance</h1>
                         <p className="text-sm text-gray-600">Activity from Nov 1, 2024 - Dec 25, 2024</p>
                     </div>
-
                     <div className="flex items-center gap-4">
-                        {/* Date Range Picker */}
                         <div className="flex gap-2">
-            <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}  // Correct way to update startDate
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}  // Correct way to update endDate
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-        </div>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}  // Correct way to update startDate
+                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}  // Correct way to update endDate
+                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
                         {/* Share Button */}
                         <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
                             Share
@@ -235,16 +244,22 @@ const InstaAudience = () => {
                             ))}
                         </div>
                     )}
+                    {showToast && (
+                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-md">
+                            Please select Profile
+                        </div>
+                    )}
+
                 </div>
-
-
                 {/* Data Display Section */}
-
             </div>
             <ProfileStatics dataById={dataById} />
             <InstaFollowersGraph totalFollowers={totalFollowers} dateWiseFollowers={dateWiseFollowers} />
             <PostPerformance mediaData={mediaData} />
-            <StoryPerformance storiesData={storiesData}/>
+            <InstaImpressions dateWiseFollowers={dateWiseFollowers} totalImpressions={totalImpressions} />
+            <EngagementInsta />
+            <StoryPerformance storiesData={storiesData} />
+
         </div>
     )
 }

@@ -28,11 +28,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Image from 'next/image';
 import Logo from '../../../public/img/SociapaLogo.png';
-// import { StatsCards } from './stats-cards';
-// import { Charts } from './charts';
-// import { CampaignNames } from './CampaignNames';
-// import { DemographicChart } from './demographic-chart';
-// import TopPerformingAds from './topperformingAds';
 import Link from 'next/link';
 
 const drawerWidth = 240;
