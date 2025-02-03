@@ -1,7 +1,10 @@
+"use client"
+
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const MetricCard = ({ title, value, tooltip, isLoading }) => {
+
   return (
     <div className="border p-4 text-left">
       <p className="font-semibold inline-block border-dotted border-b-2 mb-2">{title}</p>
@@ -31,17 +34,25 @@ const MetricCard = ({ title, value, tooltip, isLoading }) => {
   );
 };
 
-const ProfileStatics = ({ dataById }) => {
-  const isLoading = dataById.length === 0;
-  const { impressions = 'N/A' } = dataById[0] || {};
+const ProfileStatics = ({ dataById, totalStats }) => {
+  const isLoading = totalStats?.length === 0;
+
+
+
+  // Access values from totalStats
+  const reach = totalStats?.find(stat => stat.name === 'reach')?.total_value?.value || 'N/A';
+  const impressions = totalStats?.find(stat => stat.name === 'impressions')?.total_value?.value || 'N/A';
+  const profile_views = totalStats?.find(stat => stat.name === 'profile_views')?.total_value?.value || 'N/A';
+  const website_clicks = totalStats?.find(stat => stat.name === 'website_clicks')?.total_value?.value || 'N/A';
+
+
 
   const metrics = [
     { title: 'Impressions', value: impressions, tooltip: '4323%' },
-    { title: 'Engagements', value: '74,900,354', tooltip: '4323%' },
-    { title: 'Post Link Clicks', value: '74,900,354', tooltip: '4323%' },
-    { title: 'Engagement Rate (per Impression)', value: '74,900,354', tooltip: '4323%' },
+    { title: 'Reach', value: reach, tooltip: '4323%' },
+    { title: 'Profile Views', value: profile_views, tooltip: '4323%' },
+    { title: 'Website Clicks', value: website_clicks, tooltip: '4323%' },
   ];
-
 
   return (
     <div className="border h-auto mt-10 ">
@@ -62,6 +73,7 @@ const ProfileStatics = ({ dataById }) => {
             value={metric.value}
             tooltip={metric.tooltip}
             isLoading={isLoading}
+            totalStats={totalStats}
           />
         ))}
       </div>

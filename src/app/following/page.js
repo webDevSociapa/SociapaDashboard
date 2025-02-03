@@ -8,15 +8,15 @@ import ProfileStatics from "../components/profileStatics";
 const FbInstaData = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  
-  const [dataById,setDataById] = useState([]);
+
+  const [dataById, setDataById] = useState([]);
   const [selectedMetrics, setSelectedMetrics] = useState([]);
   const [dateRange, setDateRange] = useState({
     start: "2024-11-01",
     end: "2024-12-25",
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+
 
   const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
 
@@ -31,21 +31,20 @@ const FbInstaData = () => {
         const response = await axios.get(
           baseUrl, { params }
         );
-        console.log("response222", response);
         setData(response.data.data || []); // Adjust based on actual API response structure
       } catch (err) {
         setError("Failed to fetch data. Please check your credentials.");
       }
     };
 
-  fetchData();
+    fetchData();
   }, []);
 
   const fetchDataById = async (id) => {
     const baseUrl = `https://graph.facebook.com/v21.0/${id}/insights`; // Use backticks for template literals    
     const params = {
       access_token: accessToken, // Include the access token
-      
+
     };
     try {
       const response = await axios.get(baseUrl, { params });
@@ -58,7 +57,7 @@ const FbInstaData = () => {
 
   //fields: "impressions,engagement_rate,post_clicks,engagements", // Specify the metrics you want
 
-  
+
 
   const handleMetricChange = (metric) => {
     setSelectedMetrics((prev) => {
@@ -103,7 +102,7 @@ const FbInstaData = () => {
               />
             </div>
             {/* Share Button */}
-            <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            <button className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
               Share
             </button>
           </div>
@@ -118,10 +117,10 @@ const FbInstaData = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md flex justify-between items-center bg-white text-gray-700 focus:outline-none"
           >
             <span>
-          {selectedMetrics.length > 0
-            ? selectedMetrics.map((metric) => metric.name).join(", ")
-            : "Select Metrics"}
-        </span>
+              {selectedMetrics.length > 0
+                ? selectedMetrics.map((metric) => metric.name).join(", ")
+                : "Select Metrics"}
+            </span>
             <svg
               className={`w-5 h-5 transform ${isDropdownOpen ? "rotate-180" : "rotate-0"
                 }`}

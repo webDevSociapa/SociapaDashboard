@@ -3,7 +3,7 @@
 import { LineChart } from "@mui/x-charts";
 import { useState, useEffect } from "react";
 
-const InstaImpressions = ({ totalImpressions }) => {
+const InstaImpressions = ({ totalImpressions }) => {    
 
     const [dates, setDates] = useState([]);
     const [impressionsData, setImpressionsData] = useState([]);

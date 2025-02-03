@@ -16,7 +16,6 @@ export function DemographicChart() {
         }
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
         setData((prev) => ({ ...prev, [platformKey]: response.data }));
-        console.log(`Fetched ${platformKey} data:`, response.data);
       } catch (error) {
         console.error(`Error fetching ${platformKey} data:`, error);
       }

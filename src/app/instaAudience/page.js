@@ -27,6 +27,7 @@ const InstaAudience = () => {
     const [showToast, setShowToast] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
+    const [totalStats, setTotalStats] = useState()
 
 
     useEffect(() => {
@@ -45,7 +46,6 @@ const InstaAudience = () => {
                 setError("Failed to fetch data. Please check your credentials.");
             }
         };
-
         fetchData();
     }, []);
 
@@ -57,7 +57,6 @@ const InstaAudience = () => {
                 ? prev.filter((item) => item.id !== metric.id) // Remove if already selected
                 : [...prev, metric]; // Add if not selected
         });
-
         localStorage.setItem("selectedMetrics", JSON.stringify(selectedMetrics));
     };
 
@@ -114,7 +113,6 @@ const InstaAudience = () => {
         try {
             const response = await axios.get(url, { params });
             const instaBusinessId = response?.data?.instagram_business_accounts?.data?.[0]?.id || null;
-            console.log("Instagram Business ID:", instaBusinessId);
 
             setInstaBusiness(instaBusinessId);
             return instaBusinessId;
@@ -133,11 +131,9 @@ const InstaAudience = () => {
         };
         try {
             const response = await axios.get(url, { params });
-            console.log("Instagram Followers Count:", response);
 
             setTotalFollowers(response?.data?.followers_count)
             setStoriesData(response.data)
-            console.log("Instagram Followers Count:", response);
             setMediaData(response?.data);
             console.log("media data", response?.data?.media);
         } catch (error) {
@@ -147,13 +143,14 @@ const InstaAudience = () => {
 
     useEffect(() => {
         const fetchData = async (instaBusinessId) => {
-            console.log("fetching data", instaBusinessId);
 
             const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
             try {
                 const url = `https://graph.facebook.com/v21.0/${instaBusiness}/insights?metric=impressions,follower_count&period=day&since=${startDate}&until=${endDate}&access_token=${accessToken}`;
+                const url2 = `https://graph.facebook.com/v21.0/${instaBusiness}/insights?metric=reach,impressions,profile_views,website_clicks&period=day&metric_type=total_value&since=${startDate}&until=${endDate}&access_token=${accessToken}`;
                 const response = await axios.get(url);
-
+                const response2 = await axios.get(url2);
+                setTotalStats(response2.data.data)
 
                 setDateWiseFollowers(response.data.data[1].values);
                 setTotalImpressions(response.data.data[0].values);
@@ -204,7 +201,7 @@ const InstaAudience = () => {
                             />
                         </div>
                         {/* Share Button */}
-                        <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        <button className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
                             Share
                         </button>
                     </div>
@@ -253,7 +250,7 @@ const InstaAudience = () => {
                 </div>
                 {/* Data Display Section */}
             </div>
-            <ProfileStatics dataById={dataById} />
+            <ProfileStatics dataById={dataById} totalStats={totalStats} />
             <InstaFollowersGraph totalFollowers={totalFollowers} dateWiseFollowers={dateWiseFollowers} />
             <PostPerformance mediaData={mediaData} />
             <InstaImpressions dateWiseFollowers={dateWiseFollowers} totalImpressions={totalImpressions} />

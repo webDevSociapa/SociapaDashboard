@@ -18,18 +18,12 @@ const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
             // Loop through the data to calculate gained and lost followers
             for (let i = 0; i < dateWiseFollowers.length; i++) {
                 const currentData = dateWiseFollowers[i];
-                console.log("currentData", currentData);
                 
                 const previousData = i > 0 ? dateWiseFollowers[i - 1] : null;
-                console.log("previousData", previousData);
-                
-
-
 
                 // Format the date for x-axis (use the `end_time` as the date)
                 const date = new Date(currentData.end_time).toLocaleDateString();
                 dates.push(date);
-                console.log("date", date);
 
 
                 if (previousData) {

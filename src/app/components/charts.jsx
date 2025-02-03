@@ -50,7 +50,6 @@ export function Charts() {
         const processedData = processChartData(response.data);
         setChartData(processedData);
         
-        console.log('Processed chart data:', processedData);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Failed to fetch data. Please try again later.');

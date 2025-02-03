@@ -19,7 +19,6 @@ export function CampaignNames() {
 
         // Replace '/api/excelData' with your actual API endpoint
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
-        console.log("response", response);
 
 
         if (response && response.data) {

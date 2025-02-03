@@ -23,7 +23,6 @@ export function StatsCards() {
         const response = await axios.get(`/api/excelData?sheetName=${sheetName}&brandName=${brandName}`);
         setStatsData(response.data);
         setLoading(false);
-        console.log("Fetched data:", response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const PostPerformance = ({ mediaData }) => {
     const [topPosts, setTopPosts] = useState([]);
-    const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q"; // Replace with your access token
+    const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q";
 
     useEffect(() => {
         const fetchLikesData = async () => {
@@ -32,9 +32,9 @@ const PostPerformance = ({ mediaData }) => {
                 console.error("Error fetching media data:", error);
             }
         };
-
         fetchLikesData();
     }, [mediaData]);
+
 
     return (
         <div className="border lg-rounded mt-10">
