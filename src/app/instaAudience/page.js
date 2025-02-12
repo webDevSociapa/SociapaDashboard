@@ -8,7 +8,6 @@ import PostPerformance from "../components/postPerformance";
 import StoryPerformance from "../components/storyPerformance";
 import InstaImpressions from "../components/instaImpressions";
 import EngagementInsta from "../components/engagementsInsta";
-import { ToastContainer, toast } from 'react-toastify';
 
 const InstaAudience = () => {
     const [data, setData] = useState([]);
@@ -26,9 +25,9 @@ const InstaAudience = () => {
     const [selectedMetrics, setSelectedMetrics] = useState([]);
     const [showToast, setShowToast] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
     const [totalStats, setTotalStats] = useState()
-
+    
+    const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +47,6 @@ const InstaAudience = () => {
         };
         fetchData();
     }, []);
-
 
     const handleMetricChange = (metric) => {
         setSelectedMetrics((prev) => {
@@ -101,7 +99,6 @@ const InstaAudience = () => {
             throw error;
         }
     };
-
     // Helper function to get Instagram Business ID
     const getInstagramBusinessId = async (businessId) => {
         const url = `https://graph.facebook.com/v21.0/${businessId}`;
@@ -129,9 +126,11 @@ const InstaAudience = () => {
             fields: "followers_count,media_count,media,profile_picture_url,stories",
             access_token: accessToken,
         };
+
         try {
             const response = await axios.get(url, { params });
-
+          console.log("respinse",response);
+          
             setTotalFollowers(response?.data?.followers_count)
             setStoriesData(response.data)
             setMediaData(response?.data);
@@ -177,13 +176,13 @@ const InstaAudience = () => {
 
     return (
         <div style={{ marginTop: '100px', textAlign: 'center', margin: "20px 60px" }}>
-            <h1>Instagram Business Profile</h1>
+            <h1>Instagram   Profile</h1>
             <div className="bg-gray-100 p-6 mt-10 border border-gray-300 rounded-lg">
                 {/* Header Section */}
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-lg font-semibold text-gray-800">Profile Performance</h1>
-                        <p className="text-sm text-gray-600">Activity from Nov 1, 2024 - Dec 25, 2024</p>
+                        <h1 className="text-lg font-semibold text-gray-800">Instagram Business Performance</h1>
+                        <h3 className="text-sm text-gray-600 ">{startDate} to {endDate}</h3>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="flex gap-2">

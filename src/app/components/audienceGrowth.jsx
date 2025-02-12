@@ -35,7 +35,6 @@ const AudienceGrowth = () => {
             </button>
           </div>
         </div>
-
         <hr className="mb-6 border-gray-300" />
 
         {/* Dropdown with Checkboxes */}
@@ -98,11 +97,9 @@ const AudienceGrowth = () => {
               ))}
             </div>
           )}
-
+          
         </div>
-
         {/* Data Display Section */}
-
       </div>
       <ProfileStatics dataById={dataById} />
     </>
