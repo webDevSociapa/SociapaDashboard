@@ -76,6 +76,7 @@ const navigation = [
   { name: 'Data File', href: '/dataFile', icon: <EqualizerIcon /> },
   { name: 'Report', href: '/report', icon: <AssessmentIcon /> },
   { name: 'Instagram Bussiness Profile', href: '/instaAudience', icon: <AssessmentIcon /> },
+  { name: 'Profile Performance', href: '/following', icon: <AssessmentIcon /> },
 ];
 
 export default function SidebarDrawer() {
