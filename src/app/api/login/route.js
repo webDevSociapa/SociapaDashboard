@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 // Mock user data for email-password validation
-const users = {
-  "aalishan@gmail.com": {
+const users = [
+  {
+    email: "aalishan@gmail.com",
     brandName: "aalishaan",
     password: "12345",
     fileName1: "AdName2",
@@ -11,7 +12,9 @@ const users = {
     fileName4: "fbP",
     fileName5: "instaP",
   },
-  "admin@nutrela.com": {
+
+  {
+    email: "admin@nutrela.com",
     brandName: "nutrela",
     password: "123456",
     fileName1: "AdName2",
@@ -20,7 +23,8 @@ const users = {
     fileName4: "fbP",
     fileName5: "instaP",
   },
-  "9am@gmail.com": {
+  {
+    email: "9am@gmail.com",
     brandName: "9am",
     password: "1234567",
     fileName1: "9amAdName",
@@ -29,7 +33,9 @@ const users = {
     fileName4: "9amFbP",
     fileName5: "9amInstaP",
   },
-  "Madhusudan@gmail.com": {
+
+  {
+    email: "Madhusudan@gmail.com",
     brandName: "Madhusudan",
     password: "Madhusudan",
     fileName1: "MadhusudanAdName",
@@ -38,7 +44,9 @@ const users = {
     fileName4: "MadhusudanFbP",
     fileName5: "MadhusudanInstaP",
   },
-  "ProQuest@gmail.com": {
+
+  {
+    email: "ProQuest@gmail.com",
     brandName: "ProQuest",
     password: "1234567",
     fileName1: "ProQuestAdName",
@@ -47,7 +55,9 @@ const users = {
     fileName4: "ProQuestFbP",
     fileName5: "ProQuestInstaP",
   },
-  "Sunride@gmail.com": {
+
+  {
+    email: "Sunride@gmail.com",
     brandName: "Sunride",
     password: "1234567",
     fileName1: "SunrideAdName",
@@ -56,7 +66,9 @@ const users = {
     fileName4: "SunrideFbP",
     fileName5: "SunrideInstaP",
   },
-  "Coatee@gmail.com": {
+
+  {
+    email: "Coatee@gmail.com",
     brandName: "Coatee",
     password: "1234567",
     fileName1: "CoateeAdName",
@@ -65,7 +77,10 @@ const users = {
     fileName4: "CoateeFbP",
     fileName5: "CoateeInstaP",
   },
-  "nutrelaSports@gmail.com": {
+
+
+  {
+    email: "nutrelaSports@gmail.com",
     brandName: "Nutrela Sports",
     password: "1234567",
     fileName1: "nutrelaSportsAdName",
@@ -75,7 +90,8 @@ const users = {
     fileName5: "nutrelaSportsInstaP",
   },
 
-  "nutrelaNutrition@gmail.com": {
+  {
+    email: "nutrelaNutrition@gmail.com",
     brandName: "Nutrela Nutrition",
     password: "1234567",
     fileName1: "nutrelaSportsAdName",
@@ -85,7 +101,9 @@ const users = {
     fileName5: "nutrelaSportsInstaP",
   },
 
-  "myNutrela@gmail.com": {
+
+  {
+    email: "myNutrela@gmail.com",
     brandName: "My Nutrela",
     password: "1234567",
     fileName1: "myNutrelaAdName",
@@ -93,8 +111,9 @@ const users = {
     fileName3: "myNutrelaDwise",
     fileName4: "myNutrelaFbP",
     fileName5: "myNutrelaInstaP",
-  },
-};
+  }
+
+];
 
 export async function POST(request) {
   try {
@@ -107,21 +126,20 @@ export async function POST(request) {
       );
     }
 
-    const user = users[email];
+    // Find user by email
+    const user = users.find((itm) => itm.email === email);
+
     if (!user || user.password !== password) {
       return NextResponse.json(
-        { error: "Invalid email or password" },
+        { error: "Invalid Email or Password" },
         { status: 401 }
       );
     }
-    const { password: _, ...fileNames } = user;
 
-
-    return NextResponse.json({
-      message: "Login successful",
-      usersData: fileNames,
-      status: 200
-    });
+    return NextResponse.json(
+      { message: "Login Successful", user,status:"200" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error in login API:", error);
     return NextResponse.json(

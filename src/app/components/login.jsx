@@ -23,17 +23,20 @@ export default function LoginComponent() {
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        
         try {
             const response = await axios.post("/api/login", formData);
-            if (response.data.status === 200) {
+            console.log("scsss",response);
+            
+            if (response.data.status === "200") {
                 // Save loggedIn state to localStorage
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('sheetName1', response.data.usersData.fileName1);
-                localStorage.setItem('sheetName2', response.data.usersData.fileName2);
-                localStorage.setItem('sheetName3', response.data.usersData.fileName3);
-                localStorage.setItem('sheetName4', response.data.usersData.fileName4);
-                localStorage.setItem('sheetName5', response.data.usersData.fileName5);
-                localStorage.setItem('brandName', response.data.usersData.brandName);
+                localStorage.setItem('sheetName1', response.data.user.fileName1);
+                localStorage.setItem('sheetName2', response.data.user.fileName2);
+                localStorage.setItem('sheetName3', response.data.user.fileName3);
+                localStorage.setItem('sheetName4', response.data.user.fileName4);
+                localStorage.setItem('sheetName5', response.data.user.fileName5);
+                localStorage.setItem('brandName', response.data.user.brandName);
                 // Show success toast
                 toast.success('Login successful!', {
                     position: "top-right",
@@ -74,7 +77,7 @@ export default function LoginComponent() {
 
     return (
         <Paper>
-            <div className="min-h-screen flex">
+            <div className="flex">
                 {/* Left Side - Login Form */}
                 <div className="flex-1 flex items-center justify-center p-8 sm:p-12 lg:p-16">
                     <div className="w-full max-w-sm">
@@ -102,7 +105,6 @@ export default function LoginComponent() {
                                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                                 />
                             </div>
-
                             {/* Password Input */}
                             <div>
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">

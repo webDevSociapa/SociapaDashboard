@@ -3,7 +3,7 @@
 import { LineChart } from "@mui/x-charts";
 import { useState, useEffect } from "react";
 
-const InstaImpressions = ({ totalImpressions }) => {    
+const InstaImpressions = ({ totalImpressions }) => {
 
     const [dates, setDates] = useState([]);
     const [impressionsData, setImpressionsData] = useState([]);
@@ -49,7 +49,7 @@ const InstaImpressions = ({ totalImpressions }) => {
                         { id: "growth", data: dailyGrowth, label: "Daily Growth (%)", color: "green" }
                     ]}
                     height={400}
-                    margin={{  left: 80 }}
+                    margin={{ left: 80 }}
                 />
             </div>
 

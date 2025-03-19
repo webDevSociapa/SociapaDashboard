@@ -26,7 +26,7 @@ const InstaAudience = () => {
     const [showToast, setShowToast] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [totalStats, setTotalStats] = useState()
-    
+
     const accessToken = process.env.NEXT_PUBLIC_API_SECRET; // Replace with your access token
 
     useEffect(() => {
@@ -129,8 +129,8 @@ const InstaAudience = () => {
 
         try {
             const response = await axios.get(url, { params });
-          console.log("respinse",response);
-          
+            console.log("respinse", response);
+
             setTotalFollowers(response?.data?.followers_count)
             setStoriesData(response.data)
             setMediaData(response?.data);
