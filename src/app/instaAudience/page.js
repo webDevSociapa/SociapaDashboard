@@ -32,9 +32,6 @@ const InstaAudience = () => {
     const [showingMedia, setShowingMedia] = useState();
     const [followerChange, setFollowerChange] = useState(null);
 
-    
-
-
 
     useEffect(() => {
         if (accessToken) {
@@ -115,6 +112,7 @@ const InstaAudience = () => {
             throw error;
         }
     };
+    
     // Helper function to get Instagram Business ID
     const getInstagramBusinessId = async (businessId) => {
         const url = `https://graph.facebook.com/v21.0/${businessId}`;
