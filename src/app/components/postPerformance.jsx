@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const PostPerformance = ({ mediaData }) => {
+const PostPerformance = ({ mediaData,onDataReady }) => {
     const [topPosts, setTopPosts] = useState([]);
-    const accessToken = "EAAZAzDEZADHB8BO7kZBIX7hUWAe4yuHhAktbeAED7d2sVSN8nEZCu9Cb8h1DCdxllFtKjPjpWJAtRCFksJWcZCotsSCepW5IEW70vxwZCYn53dYKM3dnfU3IvAxOq8bL1rFaxgYZBqNaKFaYgyJPmbe69agAUGFkxfZC5HHrYE4MTWdeycxf4NRB622Q";
+    const accessToken = "EAAZAzDEZADHB8BO8PUoz23BVEFrDfrZAdwpPgH0G4LbgPROxpokucxei8TPEpRQmsAohknFKhl3hDuYKtlHxUtmdiLVCZCyioDwilKZCG47Rw2vBGYQMDV2llFsYDFZCqYYPXbkC9onQAPtPEn3TKkDZB9KAbSrsliT2ZAtIUhZCksaHO7giV9lnfkeelm4re";
 
     useEffect(() => {
         const fetchLikesData = async () => {
@@ -28,6 +28,7 @@ const PostPerformance = ({ mediaData }) => {
 
                 // Get top 10 posts
                 setTopPosts(sortedMedia.slice(0, 10));
+                onDataReady(sortedMedia.slice(0, 10))
             } catch (error) {
                 console.error("Error fetching media data:", error);
             }

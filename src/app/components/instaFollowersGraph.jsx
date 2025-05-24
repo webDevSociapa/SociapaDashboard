@@ -3,7 +3,9 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useEffect, useState } from "react";
 
-const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
+   const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
+    console.log("dateWiseFollowers",dateWiseFollowers);
+    
     const [followersGained, setFollowersGained] = useState([]);
     const [followersLost, setFollowersLost] = useState([]);
     const [xAxisData, setXAxisData] = useState([]);
@@ -18,14 +20,10 @@ const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
             // Loop through the data to calculate gained and lost followers
             for (let i = 0; i < dateWiseFollowers.length; i++) {
                 const currentData = dateWiseFollowers[i];
-                
                 const previousData = i > 0 ? dateWiseFollowers[i - 1] : null;
-
                 // Format the date for x-axis (use the `end_time` as the date)
                 const date = new Date(currentData.end_time).toLocaleDateString();
                 dates.push(date);
-
-
                 if (previousData) {
                     const gainedValue = currentData.value - previousData.value;
                     gained.push(gainedValue > 0 ? gainedValue : 0); // followers gained
@@ -34,12 +32,10 @@ const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
                     gained.push(0); // No change for the first data point
                     lost.push(0);
                 }
-            }
-
+        }
             setXAxisData(dates);
             setFollowersGained(gained);
             setFollowersLost(lost);
-
             // Calculate the growth percentage based on the first and last data points
             const startFollowers = dateWiseFollowers[0].value;
             const endFollowers = dateWiseFollowers[dateWiseFollowers.length - 1].value;
@@ -47,6 +43,24 @@ const InstaFollowersGraph = ({ totalFollowers, dateWiseFollowers }) => {
             setGrowthPercentage(growth.toFixed(2));
         }
     }, [dateWiseFollowers]);
+
+    console.log("followersGained",followersGained);
+    console.log("followerfollowersLostGained",followersLost);
+    console.log("totalFollowers",totalFollowers);
+    
+
+    // const DataApi = async() =>{
+    //     const response = await axios.get(`/api/excelData?sheetName=${sheetName}`);
+    //     const sortedData = response.data.sort((a,b)=>{
+    //         console.log("sortedData",sortedData);
+    //         return new Date(b[""] || "1970-01-01") - new Date(a[""] || "1970-01-01");
+            
+    //     })
+    // }
+
+    // useEffect(()=>{
+    //     DataApi();
+    // },[])
 
     return (
         <>

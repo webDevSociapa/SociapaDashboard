@@ -16,5 +16,3 @@ export function processChartData(data) {
   
     return processedData.sort((a, b) => new Date(a.date) - new Date(b.date));
   }
-  
-  

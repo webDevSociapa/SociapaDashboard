@@ -35,6 +35,7 @@ const InstaImpressions = ({ totalImpressions }) => {
             setDailyGrowth(growth);
         }
     }, [totalImpressions]);
+    
 
     return (
         <>
