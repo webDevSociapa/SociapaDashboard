@@ -159,7 +159,6 @@ const InstaAudience = () => {
     // Slide 1: Logo and Title
     // Slide 1: Custom Header Layout with Logos and Title
 const slide1 = pptx.addSlide();
-
 // Top logos row
 try {
     const sociapaLogo = await getBase64ImageFromUrl('/img/image.png'); // Replace with actual path
@@ -170,8 +169,6 @@ if (showingMedia?.some(itm => itm.username === "9amfoods")) {
 } else if (showingMedia?.some(itm => itm.username === "proquest_nutrition")) {
   proquestLogo = await getBase64ImageFromUrl('/img/p1.png');
 }
-
-     
 
     // Sociapa Logo - Left
     slide1.addImage({

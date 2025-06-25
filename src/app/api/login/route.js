@@ -137,7 +137,7 @@ export async function POST(request) {
     }
 
     return NextResponse.json(
-      { message: "Login Successful", user,status:"200" },
+      { message: "Login Successful", user, status: "200" },
       { status: 200 }
     );
   } catch (error) {
