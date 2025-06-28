@@ -39,6 +39,9 @@ export default function DemographicsPage() {
     { name: 'Men', value: currentData.reduce((acc, ageGroup) => acc + ageGroup.men, 0) }
   ];
 
+
+  
+
   const COLORS = ['#8884d8', '#82ca9d'];
 
   return (
