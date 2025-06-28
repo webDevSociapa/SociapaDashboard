@@ -7,6 +7,8 @@ import { DataGrid } from '@mui/x-data-grid';
 export default function TopPerformingAds() {
     const [topAds, setTopAds] = useState([]);
     const [error, setError] = useState(null);
+    console.log("top");
+    
 
     useEffect(() => {
         const fetchStatsData = async () => {
