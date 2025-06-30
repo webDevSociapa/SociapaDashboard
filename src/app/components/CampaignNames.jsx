@@ -7,6 +7,7 @@ import axios from 'axios';
 export function CampaignNames() {
   const [campaigns, setCampaigns] = useState([]);
   const [error, setError] = useState(null);
+  console.log("rk")
 
   useEffect(() => {
     const fetchStatsData = async () => {
